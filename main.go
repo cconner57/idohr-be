@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -65,9 +66,19 @@ type FosterData struct {
 }
 
 func main() {
-	// --- CONFIGURATION ---
-	// UPDATE THIS if running remotely (use Pi IP) or locally (use 'localhost')
-	connStr := "postgres://pet_admin:secure_password_here@localhost:5432/shelter_db?sslmode=disable"
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("No .env file found, checking system environment variables...")
+	}
+
+	// 2. Get Password from Environment
+	dbPassword := os.Getenv("DB_PASSWORD")
+	if dbPassword == "" {
+		log.Fatal("Error: DB_PASSWORD environment variable is not set.")
+	}
+
+	// 3. Construct Connection String
+	connStr := fmt.Sprintf("postgres://pet_admin:%s@localhost:5432/shelter_db?sslmode=disable", dbPassword)
 
 	fmt.Println("Connecting to database...")
 	db, err := sql.Open("postgres", connStr)
