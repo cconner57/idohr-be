@@ -1,18 +1,22 @@
 package main
 
 import (
-	"github.com/rs/cors"
 	"net/http"
+
+	"github.com/rs/cors" // Make sure you have this
 )
 
-func (app *Application) routes() http.Handler {
+func (app *application) routes() http.Handler { // <--- lowercase application
 	mux := http.NewServeMux()
 
-	// Register Routes
-	mux.HandleFunc("GET /", app.Home)
-	mux.HandleFunc("GET /pets", app.GetAllPets)
-	mux.HandleFunc("GET /pets/spotlight", app.GetSpotlightPets)
-	mux.HandleFunc("GET /pets/available", app.GetAvailablePets)
+	// Register Routes (Use the lowercase function names we just defined)
+	mux.HandleFunc("GET /", app.home)
+	mux.HandleFunc("GET /pets", app.getAllPets)
+	mux.HandleFunc("GET /pets/spotlight", app.getSpotlightPet) // singular or plural? match the func name
+	mux.HandleFunc("GET /pets/available", app.getAvailablePets)
+
+	// Add the new Volunteer Route
+	mux.HandleFunc("POST /applications/volunteer", app.submitVolunteerApplication)
 
 	// Setup CORS
 	c := cors.New(cors.Options{
@@ -22,6 +26,5 @@ func (app *Application) routes() http.Handler {
 		AllowCredentials: true,
 	})
 
-	// Wrap the mux with CORS and return it
 	return c.Handler(mux)
 }

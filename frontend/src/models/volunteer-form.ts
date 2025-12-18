@@ -1,4 +1,4 @@
-export interface VolunteerFormState {
+export interface IVolunteerFormState {
   firstName: string
   lastName: string
   address: string

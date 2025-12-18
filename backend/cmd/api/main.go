@@ -1,61 +1,97 @@
 package main
 
 import (
+	"context"
 	"database/sql"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
+	"time"
+
 	_ "github.com/lib/pq"
 
-	"time"
+	"github.com/cconner57/adoption-os/backend/internal/data"
+	_ "github.com/lib/pq"
 )
 
+type config struct {
+	port int
+	env  string
+	db   struct {
+		dsn          string
+		maxOpenConns int
+		maxIdleConns int
+		maxIdleTime  string
+	}
+}
+
+type application struct {
+	config config
+	logger *log.Logger
+	models data.Models // This lets handlers talk to the DB
+}
+
 func main() {
-	// 1. Load Environment Variables
-	_ = godotenv.Load()
+	var cfg config
 
-	dbHost := os.Getenv("DB_HOST")
-	if dbHost == "" {
-		dbHost = "localhost"
-	}
-	dbPass := os.Getenv("DB_PASSWORD")
+	// Flags for command line configuration
+	flag.IntVar(&cfg.port, "port", 8080, "API server port")
+	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 
-	// 2. Connect to Database
-	connStr := fmt.Sprintf("postgres://pet_admin:%s@%s:5432/shelter_db?sslmode=disable", dbPass, dbHost)
-	db, err := sql.Open("postgres", connStr)
+	// Read the DB DSN from the environment or flag
+	// Note: We usually default to an empty string here and rely on the Makefile or .env
+	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("DB_DSN"), "PostgreSQL DSN")
+
+	flag.Parse()
+
+	// Initialize the logger
+	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+
+	// Create the DB connection pool
+	db, err := openDB(cfg)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
+	}
+	defer db.Close()
+	logger.Printf("database connection pool established")
+
+	// 👇 INITIALIZE THE APP INSTANCE
+	app := &application{
+		config: cfg,
+		logger: logger,
+		models: data.NewModels(db), // Initialize your models here
 	}
 
-	if err = db.Ping(); err != nil {
-		log.Fatal("Could not connect to DB: ", err)
-	}
-	fmt.Printf("Connected to Database on %s!\n", dbHost)
-
-	// 3. Initialize Application Struct
-	// This injects the database into our handlers
-	app := &Application{
-		DB: db,
+	// Start the server
+	srv := &http.Server{
+		Addr:         fmt.Sprintf(":%d", cfg.port),
+		Handler:      app.routes(), // Call the routes method
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 30 * time.Second,
 	}
 
-	// 4. Start Server using the Routes defined in routes.go
-	port := "8080"
-	fmt.Println("Server starting on port " + port + "...")
+	logger.Printf("starting %s server on %s", cfg.env, srv.Addr)
+	err = srv.ListenAndServe()
+	logger.Fatal(err)
+}
 
-	// app.routes() comes from the routes.go file!
-	err = http.ListenAndServe(":"+port, app.routes())
+func openDB(cfg config) (*sql.DB, error) {
+	db, err := sql.Open("postgres", cfg.db.dsn)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	fmt.Println("Worker started...")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-	// TODO: Phase 4 - Add loop to process background jobs
-	for {
-		fmt.Println("Checking for jobs...")
-		time.Sleep(1 * time.Hour)
+	err = db.PingContext(ctx)
+	if err != nil {
+		return nil, err
 	}
+
+	return db, nil
 }

@@ -5,14 +5,14 @@ import {
   ApplicationHeader,
   Availability,
   PositionPreferences,
-} from '../components/volunteer'
+} from '../components/volunteer/index.ts'
 import Button from '../components/common/ui/Button.vue'
 import InputField from '../components/common/ui/InputField.vue'
 import InputTextArea from '../components/common/ui/InputTextArea.vue'
-import type { VolunteerFormState } from '../models/common'
+import type { IVolunteerFormState } from '../models/volunteer-form.ts'
 import { reactive } from 'vue'
 
-const formState = reactive<VolunteerFormState>({
+const formState = reactive<IVolunteerFormState>({
   firstName: '',
   lastName: '',
   address: '',

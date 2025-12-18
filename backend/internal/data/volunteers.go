@@ -1,7 +1,63 @@
 package data
 
-// TODO: Phase 15 (Workforce Scoring)
-// Define VolunteerProfile, Shift, and Hours structs here.
+import (
+	"context"
+	"database/sql"
+	"time"
+
+	"github.com/lib/pq"
+)
+
+type VolunteerApplication struct {
+	ID                    int64     `json:"id"`
+	CreatedAt             time.Time `json:"createdAt"`
+	FirstName             string    `json:"firstName"`
+	LastName              string    `json:"lastName"`
+	Address               string    `json:"address"`
+	City                  string    `json:"city"`
+	Zip                   string    `json:"zip"`
+	PhoneNumber           string    `json:"phoneNumber"`
+	Birthday              string    `json:"birthday"`
+	Age                   *int      `json:"age"`
+	Allergies             string    `json:"allergies"`
+	EmergencyContactName  string    `json:"emergencyContactName"`
+	EmergencyContactPhone string    `json:"emergencyContactPhone"`
+	VolunteerExperience   string    `json:"volunteerExperience"`
+	InterestReason        string    `json:"interestReason"`
+	PositionPreferences   []string  `json:"positionPreferences"`
+	Availability          []string  `json:"availability"`
+	NameFull              string    `json:"nameFull"`
+	SignatureData         *string   `json:"signatureData"`
+	SignatureDate         string    `json:"signatureDate"`
+	ParentName            string    `json:"parentName"`
+	ParentSignatureData   *string   `json:"parentSignatureData"`
+	ParentSignatureDate   string    `json:"parentSignatureDate"`
+	Status                string    `json:"status"`
+}
+
 type VolunteerModel struct {
-	// DB *sql.DB
+	DB *sql.DB
+}
+
+func (m VolunteerModel) Insert(application *VolunteerApplication) error {
+	query := `
+		INSERT INTO volunteer_applications (
+			first_name, last_name, address, city, zip, phone_number, birthday, age,
+			allergies, emergency_contact_name, emergency_contact_phone,
+			volunteer_experience, interest_reason, position_preferences, availability,
+			full_name_signature, signature_data, signature_date,
+			parent_name, parent_signature_data, parent_signature_date
+		)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+		RETURNING id, created_at, status`
+
+	args := []any{
+		application.FirstName, application.LastName, application.Address, application.City, application.Zip, application.PhoneNumber, application.Birthday, application.Age,
+		application.Allergies, application.EmergencyContactName, application.EmergencyContactPhone,
+		application.VolunteerExperience, application.InterestReason, pq.Array(application.PositionPreferences), pq.Array(application.Availability),
+		application.NameFull, application.SignatureData, application.SignatureDate,
+		application.ParentName, application.ParentSignatureData, application.ParentSignatureDate,
+	}
+
+	return m.DB.QueryRowContext(context.Background(), query, args...).Scan(&application.ID, &application.CreatedAt, &application.Status)
 }
