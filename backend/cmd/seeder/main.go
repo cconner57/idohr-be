@@ -15,7 +15,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// Helpers
 func parseDate(dateStr string) *time.Time {
 	dateStr = strings.TrimSpace(dateStr)
 	if dateStr == "" || strings.Contains(dateStr, "Due") || dateStr == "----" {
@@ -47,34 +46,10 @@ func main() {
 	}
 	defer db.Close()
 
-	// --- SELF-HEALING: Ensure Table Exists ---
-	fmt.Println("Checking database schema...")
-	setupSQL := `
-	CREATE TABLE IF NOT EXISTS pets (
-		id INT PRIMARY KEY,
-		name TEXT NOT NULL,
-		date_of_birth DATE,
-		breed TEXT,
-		sex TEXT,
-		microchip_id TEXT,
-		status TEXT,
-		litter_name TEXT,
-		physical JSONB DEFAULT '{}',
-		behavior JSONB DEFAULT '{}',
-		medical JSONB DEFAULT '{}',
-		adoption JSONB DEFAULT '{}',
-		created_at TIMESTAMP DEFAULT NOW(),
-		updated_at TIMESTAMP DEFAULT NOW()
-	);`
-	if _, err := db.Exec(setupSQL); err != nil {
-		log.Fatal("Failed to ensure table exists: ", err)
-	}
-
-	// --- IMPORT LOGIC ---
 	fileName := "Master Pet List - Cats Master List.csv"
 	file, err := os.Open(fileName)
 	if err != nil {
-		log.Fatalf("Missing file: backend/%s", fileName)
+		log.Fatalf("Missing file: %s", fileName)
 	}
 	defer file.Close()
 
@@ -82,16 +57,20 @@ func main() {
 	reader.FieldsPerRecord = -1
 	records, _ := reader.ReadAll()
 
-	fmt.Printf("Importing records from %s...\n", fileName)
+	fmt.Println("Starting Import...")
 
 	for i, row := range records {
-		if i == 0 || len(row) < 10 || row[0] == "" {
+		// Skip header and empty rows
+		if i == 0 || len(row) < 3 || row[0] == "" || row[0] == "ID" {
 			continue
 		}
 
-		id, _ := strconv.Atoi(row[0])
+		id, err := strconv.Atoi(row[0])
+		if err != nil {
+			continue
+		}
 
-		// Map JSON Blocks
+		// Grouping traits for JSONB columns
 		phys, _ := json.Marshal(map[string]interface{}{"coat": row[6], "color": row[7], "size": row[11]})
 		beh, _ := json.Marshal(map[string]interface{}{"energy": row[17], "cats": row[18], "dogs": row[19], "kids": row[20]})
 		med, _ := json.Marshal(map[string]interface{}{"chip": row[12], "vax": row[32], "needs": row[25], "meds": row[46]})
@@ -101,14 +80,19 @@ func main() {
 			INSERT INTO pets (id, name, date_of_birth, breed, sex, microchip_id, status, litter_name, physical, behavior, medical, adoption)
 			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 			ON CONFLICT (id) DO UPDATE SET
-				name = EXCLUDED.name, status = EXCLUDED.status, physical = EXCLUDED.physical, 
-				behavior = EXCLUDED.behavior, medical = EXCLUDED.medical, adoption = EXCLUDED.adoption, 
+				name = EXCLUDED.name, 
+				status = EXCLUDED.status, 
+				litter_name = EXCLUDED.litter_name,
+				physical = EXCLUDED.physical, 
+				behavior = EXCLUDED.behavior, 
+				medical = EXCLUDED.medical, 
+				adoption = EXCLUDED.adoption, 
 				updated_at = NOW();`
 
 		_, err = db.Exec(query, id, row[2], parseDate(row[3]), row[5], row[10], row[13], row[36], row[4], phys, beh, med, adp)
 		if err != nil {
-			log.Printf("Skip ID %d: %v", id, err)
+			log.Printf("Error ID %d (%s): %v", id, row[2], err)
 		}
 	}
-	fmt.Println("Seeding complete!")
+	fmt.Println("Seeding complete! Database is now synced with CSV.")
 }
