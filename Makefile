@@ -28,3 +28,9 @@ run-fe:
 .PHONY: db/psql
 db/psql:
 	make -C backend db/psql
+
+## seed: populate the database from the animals.csv file
+.PHONY: seed
+seed:
+	@echo 'Seeding the database...'
+	make -C backend seed

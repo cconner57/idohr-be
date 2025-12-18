@@ -10,3 +10,6 @@ db/psql:
 tidy:
 	go fmt ./...
 	go mod tidy
+
+seed:
+	go run cmd/seeder/main.go
