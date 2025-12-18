@@ -1,14 +1,30 @@
-.PHONY: run-be run-fe setup
+# ==================================================================================== #
+# HELPERS
+# ==================================================================================== #
 
-# Run Backend (Go)
+## help: print this help message
+.PHONY: help
+help:
+	@echo 'Usage:'
+	@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'
+
+# ==================================================================================== #
+# DEVELOPMENT
+# ==================================================================================== #
+
+## run-be: run the Go backend (api)
+.PHONY: run-be
 run-be:
-	cd backend && make run
+	@echo 'Starting Backend...'
+	make -C backend run-be
 
-# Run Frontend (Vue)
+## run-fe: run the Vue frontend
+.PHONY: run-fe
 run-fe:
+	@echo 'Starting Frontend...'
 	cd frontend && npm run dev
 
-# Install Dependencies for both
-setup:
-	cd backend && go mod tidy
-	cd frontend && npm install
+## db/psql: connect to the database
+.PHONY: db/psql
+db/psql:
+	make -C backend db/psql

@@ -1,5 +1,5 @@
 ## run: runs the api server
-run:
+run-be::
 	go run cmd/api/*.go
 
 ## db/psql: connects to the database using psql
