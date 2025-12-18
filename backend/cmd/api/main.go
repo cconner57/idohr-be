@@ -5,13 +5,11 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
-
 	"time"
-
-	_ "github.com/lib/pq"
 
 	"github.com/cconner57/adoption-os/backend/internal/data"
 	_ "github.com/lib/pq"
@@ -35,6 +33,11 @@ type application struct {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Note: .env file not found (relying on system env vars)")
+	}
+
 	var cfg config
 
 	// Flags for command line configuration
