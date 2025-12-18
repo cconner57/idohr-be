@@ -1,0 +1,7 @@
+export { default as AggressiveSection } from './AggressiveSection.vue'
+export { default as BehaviorSection } from './BehaviorSection.vue'
+export { default as FeedingSection } from './FeedingSection.vue'
+export { default as HouseholdSection } from './HouseholdSection.vue'
+export { default as MedicalSection } from './MedicalSection.vue'
+export { default as OtherSection } from './OtherSection.vue'
+export { default as SurrenderSteps } from './SurrenderSteps.vue'

@@ -18,7 +18,7 @@ The project follows a **Modular Monolith** architecture to support scaling from 
 ### Folder Structure
 
 ```text
-idohr-be/
+adoption-os/backend/
 ├── cmd/
 │   ├── api/            # REST API Server (Main Application)
 │   ├── seeder/         # CSV Data Importer

@@ -1,12 +1,14 @@
-## run: runs the api server
-run:
-	go run cmd/api/*.go
+.PHONY: run-be run-fe setup
 
-## db/psql: connects to the database using psql
-db/psql:
-	docker exec -it pet_shelter_db psql -U pet_admin -d shelter_db
+# Run Backend (Go)
+run-be:
+	cd backend && make run
 
-## tidy: formats code and cleans dependencies
-tidy:
-	go fmt ./...
-	go mod tidy
+# Run Frontend (Vue)
+run-fe:
+	cd frontend && npm run dev
+
+# Install Dependencies for both
+setup:
+	cd backend && go mod tidy
+	cd frontend && npm install

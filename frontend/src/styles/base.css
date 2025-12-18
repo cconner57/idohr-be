@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'Roboto-V';
+  src: url('../assets/fonts/Roboto-Variable.ttf') format('truetype-variations');
+  font-weight: 1 999;
+}
+
+:root {
+  --green: #00a5ad;
+  --green-hover: #006f73;
+  --green-weak: #7fd1c9;
+  --green-weak-hover: #5ea5a9;
+
+  --blue: #1976d2;
+  --blue-hover: #1565c0;
+  --blue-weak: #aed9ff;
+
+  --purple: #6b5b95;
+  --purple-hover: #5a4d7a;
+  --purple-weak: #cdbaf0;
+
+  --white: #f8f8f3;
+  --red: #c73a67;
+  --yellow: #deb024;
+
+  --background: #00a5ad;
+
+  --font-color-light: #fefeff;
+  --font-color-dark: #1f2121;
+
+  --font-regular: 'Roboto-V';
+
+  --border-color: #e0e0e0;
+
+  --mobile-breakpoint: 440px;
+  --tablet-breakpoint: 1024px;
+  --desktop-breakpoint: 1440px;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --viewport-small-phone: 320px;
+  --viewport-phone: 430px;
+  --viewport-tablet: 768px;
+  --viewport-landscape-tablet: 1024px;
+  --viewport-desktop: 1280px;
+  --viewport-large-desktop: 1440px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-family: var(--font-regular);
+}
+
+html {
+  color-scheme: dark light;
+  hanging-punctuation: first last;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+html,
+body {
+  background: var(--green, #00a5ad);
+  min-height: 100%;
+}
+
+html,
+body,
+#app {
+  max-width: 100dvw;
+  overflow-x: clip;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  font-style: italic;
+  background-repeat: no-repeat;
+  background-size: cover;
+  shape-margin: 0.75rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+  font-family: var(--font-regular);
+  color: var(--tertiary);
+  font-weight: 700;
+}
+
+p {
+  max-width: 75ch;
+  text-wrap: pretty;
+  font-family: var(--font-regular);
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :has(:target) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 3rem;
+  }
+}

@@ -1,0 +1,36 @@
+<script setup lang="ts">
+import InputField from '../../common/ui/InputField.vue'
+import type { SurrenderFormState } from '../../../models/common'
+
+const { formState } = defineProps<{
+  formState: SurrenderFormState
+}>()
+</script>
+
+<template>
+  <div>
+    <h5>Other</h5>
+    <InputField
+      label="Please feel free to tell us any other information about the pet you feel is important"
+      placeholder="Email"
+      :modelValue="formState.email"
+    />
+    <InputField
+      label="Please upload a full body picture of the pet"
+      placeholder="Email"
+      :modelValue="formState.email"
+    />
+    <InputField
+      label="Please upload a up close head shot of the pet"
+      placeholder="Email"
+      :modelValue="formState.email"
+    />
+    <InputField
+      label="Please updload any records you have for the pet"
+      placeholder="Email"
+      :modelValue="formState.email"
+    />
+  </div>
+</template>
+
+<style scoped lang="css"></style>

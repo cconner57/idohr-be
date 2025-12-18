@@ -1,0 +1,166 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+const props = defineProps<{
+  header: string
+  modelValue: boolean
+}>()
+
+const emit = defineEmits(['update:modelValue'])
+
+const open = ref(false)
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    open.value = newValue
+  },
+  { immediate: true }, // Ensure the watcher runs immediately to sync the initial state
+)
+
+function closeDrawer() {
+  open.value = false
+  emit('update:modelValue', false)
+}
+</script>
+
+<template>
+  <div v-show="open" class="overlay" @click="closeDrawer">
+    <div class="drawer" @click.stop>
+      <div class="drawer-header">
+        <h2>{{ props.header }}</h2>
+        <button
+          class="hx-btn"
+          type="button"
+          :aria-expanded="open"
+          :aria-label="'Close menu'"
+          @click="closeDrawer"
+        >
+          <svg
+            :width="24"
+            :height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="black"
+            stroke-linecap="round"
+            stroke-width="2.2"
+            :data-open="open"
+            aria-hidden="true"
+            role="img"
+          >
+            <line class="hx-top" x1="3" y1="6" x2="21" y2="6" />
+            <line class="hx-mid" x1="3" y1="12" x2="21" y2="12" />
+            <line class="hx-bot" x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="drawer-body"><slot></slot></div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="css">
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  .drawer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100dvw;
+    max-width: 500px;
+    height: 100dvh;
+    z-index: 1005;
+    background-color: var(--font-color-light);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .drawer-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & h2 {
+        margin: 0 0 0 4rem;
+        font-size: 1.5rem;
+        color: black;
+      }
+      .hx-btn {
+        all: unset;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 12px;
+        cursor: pointer;
+        color: #fff;
+      }
+      .hx-btn:focus-visible {
+        outline: 2px solid #2f6bd8;
+        outline-offset: 2px;
+      }
+      svg {
+        transition: transform 0.2s ease;
+        color: var(--icon, currentColor);
+      }
+      line {
+        transform-box: fill-box;
+        transform-origin: center;
+        transition:
+          transform 0.22s ease,
+          opacity 0.18s ease;
+      }
+      .hx-top {
+        transform: translateY(0) rotate(0);
+      }
+      .hx-mid {
+        opacity: 1;
+      }
+      .hx-bot {
+        transform: translateY(0) rotate(0);
+      }
+      svg[data-open='true'] .hx-top {
+        transform: translateY(6px) rotate(45deg);
+      }
+      svg[data-open='true'] .hx-mid {
+        opacity: 0;
+      }
+      svg[data-open='true'] .hx-bot {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+    }
+    .drawer-body {
+      padding: 1rem 2rem;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+  }
+  @media (min-width: 0px) and (max-width: 320px) {
+  }
+  @media (min-width: 321px) and (max-width: 430px) {
+  }
+  @media (min-width: 431px) and (max-width: 768px) {
+    .drawer {
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      border-bottom-left-radius: 0;
+      height: 70dvh;
+      .drawer-header {
+        & h2 {
+          margin: 0 0 0 3rem;
+          font-size: 1.35rem;
+        }
+      }
+    }
+  }
+}
+</style>
