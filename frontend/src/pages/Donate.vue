@@ -92,13 +92,15 @@ import Footer from '../components/common/footer/Footer.vue'
 
 .header {
   text-align: center;
-  padding: 100px 20px 40px;
+  /* Reduced top padding for mobile, creates better visual balance */
+  padding: 140px 20px 40px;
 }
 
 .header h1 {
   color: var(--font-color-light);
   font-size: 3rem;
   margin: 0;
+  line-height: 1.2; /* Better line height for multi-line titles */
 }
 
 .header .mission-text {
@@ -146,6 +148,7 @@ import Footer from '../components/common/footer/Footer.vue'
     font-size: 2rem;
     margin-bottom: 24px;
     font-weight: 700;
+    text-align: center; /* Ensures title is centered on mobile */
 }
 
 .illustration img {
@@ -176,6 +179,7 @@ import Footer from '../components/common/footer/Footer.vue'
     transition: all 0.2s ease;
     color: white;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    text-align: center;
 }
 
 .donate-btn:hover {
@@ -188,11 +192,12 @@ import Footer from '../components/common/footer/Footer.vue'
     display: flex;
     justify-content: center;
     margin: 8px 0;
+    width: 100%; /* Ensures it takes full width of container */
 }
 
-
 .qr-placeholder {
-    width: 220px;
+    width: 100%; /* Changed from fixed 220px to fluid */
+    max-width: 240px; /* Cap the width so it doesn't get huge */
     height: auto;
     padding: 24px;
     background: transparent;
@@ -220,11 +225,13 @@ import Footer from '../components/common/footer/Footer.vue'
     font-weight: 700;
     color: #333;
     font-size: 0.9rem;
+    word-break: break-word; /* Prevents long names from breaking layout */
 }
 
 .handle {
     font-size: 0.85rem;
     color: #666;
+    word-break: break-all; /* Handles long @handles on small screens */
 }
 
 .qr-icon {
@@ -234,35 +241,21 @@ import Footer from '../components/common/footer/Footer.vue'
 }
 
 .real-qr {
-    width: 180px;
-    height: 180px;
+    width: 100%; /* Fluid width */
+    max-width: 180px; /* Cap width */
+    height: auto; /* Maintain aspect ratio */
     object-fit: contain;
     border-radius: 4px;
 }
 
 /* Cat Specific Styles */
-.cat-card h2 {
-    color: var(--purple);
-}
-
-.cat-card .illustration img {
-    border-color: var(--purple-weak);
-}
-
-.cat-card .qr-placeholder {
-    background-color: var(--purple-weak);
-    color: var(--purple);
-}
-
-.btn-paypal {
-    background-color: var(--purple);
-}
+.cat-card h2 { color: var(--purple); }
+.cat-card .illustration img { border-color: var(--purple-weak); }
+.cat-card .qr-placeholder { background-color: var(--purple-weak); color: var(--purple); }
+.btn-paypal { background-color: var(--purple); }
 
 /* Dog Specific Styles */
-.dog-card h2 {
-    color: var(--blue);
-}
-
+.dog-card h2 { color: var(--blue); }
 .dog-card .illustration img {
     border-color: var(--blue-weak);
     padding: 40px;
@@ -271,63 +264,66 @@ import Footer from '../components/common/footer/Footer.vue'
     border-width: 6px;
     box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
 }
+.dog-card .qr-placeholder { background-color: var(--blue-weak); color: var(--blue); padding: 24px; }
+.dog-card .qr-icon { width: 80px; height: 80px; opacity: 0.8; margin-bottom: 12px; }
+.dog-card .btn-paypal { background-color: var(--blue); }
 
-.dog-card .qr-placeholder {
-    background-color: var(--blue-weak);
-    color: var(--blue);
-    padding: 24px;
-}
+/* Adjusting Zelle/Venmo Colors */
+.cat-card .btn-venmo { background-color: var(--purple); }
+.dog-card .btn-venmo { background-color: var(--blue); }
 
-.dog-card .qr-icon {
-    width: 80px;
-    height: 80px;
-    opacity: 0.8;
-    margin-bottom: 12px;
-}
+/* --- RESPONSIVENESS UPDATES --- */
 
-.btn-zelle {
-    background-color: var(--blue); /* Or custom Zelle purple */
-}
-
-/* Adjusting Zelle to be distinct if reused */
-.cat-card .btn-zelle {
-     background-color: var(--purple);
-}
-.dog-card .btn-zelle {
-     background-color: var(--blue);
-}
-.dog-card .btn-paypal {
-     background-color: var(--blue);
-}
-
-.cat-card .btn-venmo {
-     background-color: var(--purple);
-}
-
-.btn-venmo {
-     background-color: var(--blue);
-}
-
-/* Mobile Responsiveness */
+/* Tablet: Stack the cards when space is tight */
 @media (max-width: 1024px) {
     .donate-container {
         flex-direction: column;
         align-items: center;
+        padding-bottom: 60px; /* Reduce bottom padding */
+    }
+
+    .header {
+        padding-top: 60px;
     }
 }
 
+/* Mobile: Optimize for small screens */
 @media (max-width: 480px) {
+    .header {
+        padding: 110px 20px 30px; /* Tighter spacing */
+    }
+
     .header h1 {
-        font-size: 2rem;
+        font-size: 2rem; /* Smaller title */
+        margin-top: 10px;
     }
+
+    .mission-text {
+        font-size: 1rem; /* Readable body text */
+        padding: 0 10px; /* Ensure text doesn't hit the edges */
+    }
+
+    .donate-container {
+        padding: 0 16px 60px; /* Smaller side padding */
+    }
+
     .donate-card {
-        padding: 24px;
+        padding: 24px 16px; /* Reduce card padding to fit more content */
+        border-radius: 16px;
     }
+
     .donate-card h2 {
         font-size: 1.5rem;
     }
+
     .illustration img {
-        height: 150px;
+        height: 140px; /* Smaller illustration */
+        width: 140px;
+        margin-bottom: 20px;
+    }
+
+    .qr-placeholder {
+        min-height: 240px; /* Allow it to shrink slightly */
     }
 }
 </style>
