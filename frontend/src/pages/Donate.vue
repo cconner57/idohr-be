@@ -101,11 +101,15 @@ import Footer from '../components/common/footer/Footer.vue'
   margin: 0;
 }
 
+.header .mission-text {
+  text-align: center;
+}
+
 .mission-text {
   color: var(--font-color-light);
   font-size: 1.15rem;
   line-height: 1.6;
-  max-width: 800px;
+  max-width: 840px;
   margin: 24px auto 0;
   opacity: 0.95;
   font-weight: 500;
