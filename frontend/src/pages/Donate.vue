@@ -6,10 +6,12 @@ import Footer from '../components/common/footer/Footer.vue'
   <div class="donate-page">
     <div class="header">
       <h1>Help Us Save Lives</h1>
+      <p class="mission-text">
+        You can save a life today! With your donation, IDOHR can only continue its lifesaving efforts … finding loving homes for wonderful rescued shelter dogs. We are a small operation but have many expenses, veterinary bills being first and foremost along with food and care for all dogs in our rescue. Any amount helps. We are a 501(c)(3) non-profit organization, so your contribution is 100% tax-deductible.
+      </p>
     </div>
 
     <main class="donate-container">
-      <!-- Cats Section -->
       <section class="donate-card cat-card">
         <h2>Support Our Cats</h2>
         <div class="illustration">
@@ -29,8 +31,6 @@ import Footer from '../components/common/footer/Footer.vue'
                <i class="icon-paypal"></i> Donate via PayPal
             </a>
 
-
-
             <div class="qr-section">
                 <div class="qr-placeholder">
                     <span class="username">Lorraine Marrero-Baeza</span>
@@ -46,7 +46,6 @@ import Footer from '../components/common/footer/Footer.vue'
         </div>
       </section>
 
-      <!-- Dogs Section -->
       <section class="donate-card dog-card">
         <h2>Support Our Dogs</h2>
         <div class="illustration">
@@ -64,8 +63,6 @@ import Footer from '../components/common/footer/Footer.vue'
             <a href="https://www.paypal.com" target="_blank" rel="noopener noreferrer" class="donate-btn btn-paypal">
                <i class="icon-paypal"></i> Donate via PayPal
             </a>
-
-
 
             <div class="qr-section">
                 <div class="qr-placeholder">
@@ -102,6 +99,16 @@ import Footer from '../components/common/footer/Footer.vue'
   color: var(--font-color-light);
   font-size: 3rem;
   margin: 0;
+}
+
+.mission-text {
+  color: var(--font-color-light);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 24px auto 0;
+  opacity: 0.95;
+  font-weight: 500;
 }
 
 .donate-container {
