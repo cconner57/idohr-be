@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { IPet } from '../../../models/common'
+import type { IPet } from '../../../models/common.ts'
 import Button from '../../common/ui/Button.vue'
 import Capsules from '../../common/ui/Capsules.vue'
 import AdoptionFAQ from '../adopt-faq/AdoptionFAQ.vue'
 import AdoptionProcess from '../adopt-process/AdoptionProcess.vue'
 import MoreFriends from '../more-friends/MoreFriends.vue'
-import { formatDate } from '../../../utils/common'
+import { formatDate } from '../../../utils/common.ts'
 import AdditionalInfo from '../additional-info/AdditionalInfo.vue'
 import AdoptDrawer from './AdoptDrawer.vue'
 
@@ -53,7 +53,7 @@ function onImgError() {
     <div class="adopt-detail__main">
       <img
         v-if="!imgError"
-        :src="`/images/${pet.photos?.primaryPhoto ?? ''}`"
+        :src="pet.photos?.find((p) => p.isPrimary)?.url ?? ''"
         :alt="pet.name"
         @error="onImgError"
       />
@@ -62,14 +62,14 @@ function onImgError() {
         <div class="adopt-detail__info__main">
           <h1>{{ pet.name }}</h1>
           <div class="adopt-detail__traits">
-            <Capsules v-if="pet?.physicalTraits?.species" :label="pet?.physicalTraits?.species" />
-            <Capsules v-if="pet?.physicalTraits?.sex" :label="pet?.physicalTraits?.sex" />
+            <Capsules v-if="pet?.species" :label="pet?.species" />
+            <Capsules v-if="pet?.sex" :label="pet?.sex" />
             <Capsules
-              v-if="pet?.physicalTraits?.age"
-              :label="formatDate(pet?.physicalTraits?.age, true)"
+              v-if="pet?.physical?.dateOfBirth"
+              :label="formatDate(pet?.physical?.dateOfBirth, true)"
             />
           </div>
-          <p>{{ pet?.descriptions?.behavioralDescription }}</p>
+          <p>{{ pet?.descriptions?.behavioral }}</p>
           <div class="adopt-detail__actions">
             <Button
               title="Start Adoption"
@@ -91,16 +91,16 @@ function onImgError() {
     </div>
     <div
       v-if="
-        pet.descriptions?.funDescription ||
+        pet.descriptions?.fun ||
         pet.descriptions?.additionalInformation?.length ||
         pet.profileSettings.showAdditionalInformation
       "
       class="adopt-detail__about"
     >
       <div class="adopt-detail__about__content">
-        <div v-if="pet.descriptions?.funDescription" class="adopt-detail__about__fun">
+        <div v-if="pet.descriptions?.fun" class="adopt-detail__about__fun">
           <h2>From {{ pet.name }}</h2>
-          <p>{{ pet.descriptions?.funDescription }}</p>
+          <p>{{ pet.descriptions?.fun }}</p>
         </div>
         <div
           class="adopt-detail__about__additional-info"
@@ -116,14 +116,26 @@ function onImgError() {
       </div>
       <div class="adopt-detail__about__medical" v-if="pet.profileSettings.showMedicalHistory">
         <h2>Medical History</h2>
+        <h3>Vaccinations</h3>
         <ul>
-          <li v-for="(shot, index) in pet.medicalHistory?.procedures" :key="index">
-            <p>{{ shot?.description }}</p>
+          <VaccinationItem name="Rabies" :date-administered="pet.medical?.vaccinations?.rabies?.dateAdministered" />
+          <VaccinationItem name="Bordetella" :date-administered="pet.medical?.vaccinations?.bordetella?.dateAdministered" />
+          <VaccinationItem name="Canine Distemper" :round1="pet.medical?.vaccinations?.canineDistemper?.round1?.dateAdministered" :round2="pet.medical?.vaccinations?.canineDistemper?.round2?.dateAdministered" :round3="pet.medical?.vaccinations?.canineDistemper?.round3?.dateAdministered" :isComplete="pet.medical?.vaccinations?.canineDistemper?.isComplete" />
+          <VaccinationItem name="Feline Distemper" :round1="pet.medical?.vaccinations?.felineDistemper?.round1?.dateAdministered" :round2="pet.medical?.vaccinations?.felineDistemper?.round2?.dateAdministered" :round3="pet.medical?.vaccinations?.felineDistemper?.round3?.dateAdministered" :isComplete="pet.medical?.vaccinations?.felineDistemper?.isComplete" />
+          <VaccinationItem name="Feline Leukemia" :round1="pet.medical?.vaccinations?.felineLeukemia?.round1?.dateAdministered" :round2="pet.medical?.vaccinations?.felineLeukemia?.round2?.dateAdministered" :round3="pet.medical?.vaccinations?.felineLeukemia?.round3?.dateAdministered" :isComplete="pet.medical?.vaccinations?.felineLeukemia?.isComplete" />
+          <VaccinationItem name="Leptospira" :round1="pet.medical?.vaccinations?.leptospira?.round1?.dateAdministered" :round2="pet.medical?.vaccinations?.leptospira?.round2?.dateAdministered" :round3="pet.medical?.vaccinations?.leptospira?.round3?.dateAdministered" :isComplete="pet.medical?.vaccinations?.leptospira?.isComplete" />
+          <VaccinationItem name="Other" :otherRounds="pet.medical?.vaccinations?.other" />
+        </ul>
+
+        <h3 v-if="pet.medical?.surgeries?.length">Surgeries</h3>
+        <ul v-if="pet.medical?.surgeries?.length">
+          <li v-for="(surgery, index) in pet.medical.surgeries" :key="'surgery-' + index">
+            <p>{{ surgery.name }}</p>
             <p>
               {{
-                shot?.receivedTreatment
-                  ? 'Received on ' + formatDate(shot?.dateAdministered ?? '')
-                  : 'Not Received'
+                surgery.date
+                  ? 'Performed on ' + formatDate(surgery.date)
+                  : 'Date not available'
               }}
             </p>
           </li>

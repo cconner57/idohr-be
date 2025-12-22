@@ -7,7 +7,7 @@ import Footer from '../components/common/footer/Footer.vue'
     <div class="header">
       <h1>Help Us Save Lives</h1>
       <p class="mission-text">
-        You can save a life today! With your donation, IDOHR can only continue its lifesaving efforts … finding loving homes for wonderful rescued shelter dogs. We are a small operation but have many expenses, veterinary bills being first and foremost along with food and care for all dogs in our rescue. Any amount helps. We are a 501(c)(3) non-profit organization, so your contribution is 100% tax-deductible.
+        You can save a life today! Your donation enables IDOHR to continue our lifesaving mission—finding loving homes for wonderful rescued shelter dogs and cats. As a small but dedicated operation, we face significant expenses including veterinary care, food, shelter, and daily care for all the animals in our rescue. Every contribution, no matter the size, makes a real difference. We are a 501(c)(3) non-profit organization, which means your donation is 100% tax-deductible.
       </p>
     </div>
 
@@ -120,10 +120,13 @@ import Footer from '../components/common/footer/Footer.vue'
 .donate-container {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 48px;
   padding: 0 var(--layout-padding-side) 100px;
   flex-wrap: wrap;
   flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* Common Card Styles */
@@ -131,8 +134,9 @@ import Footer from '../components/common/footer/Footer.vue'
   background: var(--white);
   border-radius: 24px;
   padding: 40px;
-  width: 100%;
-  max-width: 500px;
+  flex: 1;
+  min-width: 400px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -196,21 +200,21 @@ import Footer from '../components/common/footer/Footer.vue'
 }
 
 .qr-placeholder {
-    width: 100%; /* Changed from fixed 220px to fluid */
-    max-width: 240px; /* Cap the width so it doesn't get huge */
+    width: 100%;
+    max-width: 240px;
     height: auto;
-    padding: 24px;
+    padding: 16px;
     background: transparent;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 280px;
+    min-height: auto;
     color: #666;
     font-size: 1rem;
     text-align: center;
-    gap: 8px;
+    gap: 12px;
     border: none;
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
 }

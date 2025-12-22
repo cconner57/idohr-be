@@ -10,7 +10,9 @@
         food, veterinary care, and love. IDOHR will also advocate and educate on the importance of
         pet adoption, spaying, neutering, and proper pet care.
       </p>
-      <img src="/images/watercolor.jpeg" alt="watercolor painting of dog and cat" height="300" />
+      <div class="image-container">
+        <img src="/images/watercolor.jpeg" alt="watercolor painting of dog and cat" height="300" />
+      </div>
     </div>
   </section>
 </template>
@@ -32,17 +34,31 @@
   .mission-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    gap: 40px;
+
+    & .image-container {
+      background-color: var(--white);
+      padding: 16px;
+      border-radius: 24px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
     & img {
       border-radius: 16px;
       height: auto;
       max-height: 300px;
       object-fit: cover;
-      width: 350px;
-      /* margin-right: 100px; REMOVED */
+      width: 100%;
+      max-width: 400px;
     }
     & p {
-      width: 650px;
+      width: 100%;
+      max-width: 650px;
       font-size: 1.2rem;
       color: var(--font-color-medium);
       line-height: 1.6;
@@ -51,8 +67,9 @@
     }
   }
 
-  @media (min-width: 321px) and (max-width: 430px) {
-    padding: 0 2rem;
+  /* Mobile: 321px - 430px (and generally small screens) */
+  @media (max-width: 768px) {
+
 
     & h4 {
       font-size: 2rem;
@@ -60,37 +77,49 @@
     .mission-content {
       flex-direction: column;
       align-items: center;
+      gap: 24px;
+
       & img {
-        margin: 20px 0;
         width: 100%;
-        height: auto;
-        max-height: none;
+        max-width: 100%;
+        margin: 0;
       }
       & p {
         width: 100%;
         font-size: 1rem;
-        margin-top: 10px;
-        color: var(--font-color-medium);
-        line-height: 1.6;
-        font-weight: 400;
+        margin-top: 0;
       }
     }
   }
-  @media (min-width: 431px) and (max-width: 768px) {
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-  }
-  @media (min-width: 1025px) and (max-width: 1440px) {
 
+  /* Tablet: 769px - 1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
     & h4 {
       font-size: 2.25rem;
     }
-    & .mission-content {
+    .mission-content {
+      gap: 32px;
       & p {
-        width: 50%;
+        flex: 1;
+        width: auto;
+        font-size: 1.1rem;
       }
       & img {
-        margin-right: 0px;
+        width: 40%;
+        max-width: 350px;
+      }
+    }
+  }
+
+  /* Desktop Large: 1025px - 1440px */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    & h4 {
+      font-size: 2.5rem;
+    }
+    .mission-content {
+      & p {
+        flex: 1;
+        width: auto;
       }
     }
   }

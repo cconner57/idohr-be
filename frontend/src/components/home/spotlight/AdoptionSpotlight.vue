@@ -85,7 +85,7 @@ const displayedPets = computed((): IPet[] => {
   }
 
   @media (min-width: 321px) and (max-width: 430px) {
-    margin: -3rem 0 0;
+    margin: 2rem 0 0;
     padding: 1rem 2rem;
     gap: 0.5rem;
     & h4 {
@@ -96,6 +96,7 @@ const displayedPets = computed((): IPet[] => {
     }
   }
   @media (min-width: 431px) and (max-width: 768px) {
+    margin: -20px 0 0;
     & h4 {
       font-size: 1.75rem;
     }
@@ -106,7 +107,6 @@ const displayedPets = computed((): IPet[] => {
     }
   }
   @media (min-width: 1025px) and (max-width: 1440px) {
-    width: 100%;
     width: 100%;
     padding: 24px 30px 30px;
     & h4 {

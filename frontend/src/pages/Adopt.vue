@@ -3,7 +3,7 @@ import AdoptDetail from '../components/adopt/adopt-view/AdoptDetail.vue'
 import AdoptSummary from '../components/adopt/adopt-view/AdoptSummary.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { mockPetsData } from '../stores/mockPetData'
+import { mockPetsData } from '../stores/mockPetData.ts'
 
 const props = defineProps<{ id?: string }>()
 const route = useRoute()

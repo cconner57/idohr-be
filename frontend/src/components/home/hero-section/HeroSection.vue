@@ -51,6 +51,21 @@ function handleAdopt() {
     }
   }
 
+  @media (min-width: 431px) and (max-width: 768px) {
+    padding-top: 8rem;
+    padding-bottom: 2rem;
+    min-height: 400px;
+    background-position: 50% 20%;
+
+    & h1 {
+      font-size: 2.5rem;
+      line-height: 3rem;
+      width: 200px;
+      max-width: 100%;
+      margin-bottom: 16px;
+    }
+  }
+
   @media (min-width: 1025px) and (max-width: 1440px) {
     padding-top: 8rem;
     padding-bottom: 2rem;

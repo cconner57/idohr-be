@@ -21,36 +21,41 @@ onMounted(() => {
 
 <template>
   <div class="container">
+
     <HeroSection />
     <main class="section-1">
-      <AdoptionSpotlight :pets="spotlightPets" :loading="loading" :error="error" />
-      <Mission />
+      <div class="content-wrapper">
+        <AdoptionSpotlight :pets="spotlightPets" :loading="loading" :error="error" />
+        <Mission />
+      </div>
     </main>
     <main class="section-2">
-      <Impact />
-      <section class="call-to-action">
-        <BannerButton
-          imgSrc="/images/paw.svg"
-          title="Adopt a Pet"
-          subtitle="Find your perfect companion"
-          color="blue"
-          @click="() => router.push('/adopt')"
-        />
-        <BannerButton
-          imgSrc="/images/hand.svg"
-          title="Get Involved"
-          subtitle="Volunteer, foster, or support us"
-          color="purple"
-          @click="() => router.push('/volunteer')"
-        />
-        <BannerButton
-          imgSrc="/images/heart.svg"
-          title="Donate"
-          subtitle="Help us save more lives"
-          color="green"
-          @click="() => router.push('/donate')"
-        />
-      </section>
+      <div class="content-wrapper">
+        <Impact />
+        <section class="call-to-action">
+          <BannerButton
+            imgSrc="/images/paw.svg"
+            title="Adopt a Pet"
+            subtitle="Find your perfect companion"
+            color="blue"
+            @click="() => router.push('/adopt')"
+          />
+          <BannerButton
+            imgSrc="/images/hand.svg"
+            title="Get Involved"
+            subtitle="Volunteer, foster, or support us"
+            color="purple"
+            @click="() => router.push('/volunteer')"
+          />
+          <BannerButton
+            imgSrc="/images/heart.svg"
+            title="Donate"
+            subtitle="Help us save more lives"
+            color="green"
+            @click="() => router.push('/donate')"
+          />
+        </section>
+      </div>
     </main>
 
     <Footer />
@@ -58,28 +63,46 @@ onMounted(() => {
 </template>
 
 <style scoped lang="css">
+.container {
+  width: 100%;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+
+  /* Media query gap adjustments... we can move them here or keep them on main */
+  /* Actually main had the gap. Let's move gap logic to content-wrapper if we are wrapping EVERYTHING inside main */
+}
+
 main {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* Center the wrapper */
+  /* gap: 64px;  <-- This gap was between AdoptionSpotlight and Mission. moving to content-wrapper */
+  width: 100%;
+}
+
+/* Move gap media queries to content-wrapper */
+.content-wrapper {
+  /* ... base styles ... */
+  display: flex;
+  flex-direction: column;
   gap: 64px;
 
-  /* 0px - 320px */
   @media (min-width: 0px) and (max-width: 320px) {
     gap: 24px;
   }
-
-  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
     gap: 40px;
   }
-
-  /* 431px - 768px */
   @media (min-width: 431px) and (max-width: 768px) {
     gap: 48px;
   }
-
-  /* 769px - 1024px */
   @media (min-width: 769px) and (max-width: 1024px) {
     gap: 56px;
   }
@@ -87,30 +110,24 @@ main {
 
 .section-1 {
   background-color: var(--background);
-  padding: 0 var(--layout-padding-side) 60px;
+  padding: 0 var(--layout-padding-side) 220px;
   margin-top: -20px;
   min-height: auto;
-  width: 100%;
 
+  /* Media queries for padding/margin */
   /* 0px - 320px */
   @media (min-width: 0px) and (max-width: 320px) {
     margin-top: 0;
     padding-bottom: 40px;
   }
-
-  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
     margin-top: 0;
     padding-bottom: 60px;
   }
-
-  /* 431px - 768px */
   @media (min-width: 431px) and (max-width: 768px) {
     margin-top: 0;
     padding-bottom: 80px;
   }
-
-  /* 769px - 1024px */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding-bottom: 120px;
   }
@@ -120,27 +137,20 @@ main {
   background-color: var(--white);
   padding: 60px var(--layout-padding-side) 80px;
   height: auto;
-  width: 100%;
 
-  /* 0px - 320px */
+   /* Media queries for padding/margin */
   @media (min-width: 0px) and (max-width: 320px) {
     padding-top: 40px;
     padding-bottom: 60px;
   }
-
-  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
     padding-top: 60px;
     padding-bottom: 80px;
   }
-
-  /* 431px - 768px */
   @media (min-width: 431px) and (max-width: 768px) {
     padding-top: 80px;
     padding-bottom: 100px;
   }
-
-  /* 769px - 1024px */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding-top: 100px;
     padding-bottom: 150px;
@@ -174,7 +184,7 @@ main {
 
   /* 431px - 768px */
   @media (min-width: 431px) and (max-width: 768px) {
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 32px;
   }
 

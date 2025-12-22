@@ -46,95 +46,109 @@ import Candid from '../../common/candid-award/Candid.vue'
   & content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     color: var(--font-color-dark);
+    flex-wrap: wrap;
+    gap: 40px;
   }
   & .awards {
     display: flex;
     gap: 50px;
-    width: 50%;
+    min-width: 300px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .divider {
-    border-left: 5px solid gray;
-    height: 150px;
-    border-radius: 12px;
-    margin: 0 90px 0 80px;
+    border-left: 2px solid #e5e7eb;
+    height: 120px;
+    margin: 0 20px;
   }
   .stats {
     display: flex;
-    gap: 100px;
-    width: 45%;
+    gap: 60px;
+    flex: 1;
+    min-width: 300px;
+    justify-content: center;
+
     & span {
       display: flex;
       flex-direction: column;
       gap: 8px;
+      align-items: center;
+      text-align: center;
+
       & h5 {
         font-size: 3rem;
         color: var(--font-color-dark);
       }
       & p {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         color: var(--font-color-dark);
-      }
-    }
-  }
-
-  @media (min-width: 321px) and (max-width: 430px) {
-    margin-top: -80px;
-    padding: 16px 20px 30px 20px;
-    gap: 12px;
-    overflow: hidden;
-    & h4 {
-      font-size: 1.5rem;
-      margin-left: 0;
-    }
-    & content {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-    & .awards {
-      flex-direction: column;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-    .divider {
-      height: 5px;
-      width: 250px;
-      border-left: none;
-      border-top: 5px solid gray;
-      border-radius: 12px;
-      margin: 2rem 0 0.5rem;
-    }
-    .stats {
-      gap: 50px;
-      justify-content: center;
-      width: 100%;
-      margin-left: 3rem;
-      & span {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        & h5 {
-          font-size: 2rem;
-          margin-left: 0;
-        }
-        & p {
-          font-size: 1rem;
-          margin-left: 0;
-        }
+        max-width: 150px;
       }
     }
   }
 
   @media (min-width: 431px) and (max-width: 768px) {
+    margin-top: -100px;
+    .awards {
+      margin-top: 20px;
+      gap: 50px;
+    }
+    .divider {
+      height: 1px;
+      margin: 20px 0 0;
+      border-left: none;
+      border-top: 2px solid #e5e7eb;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
+  /* Mobile and Small Tablet */
   @media (min-width: 769px) and (max-width: 1024px) {
-  }
-  @media (min-width: 1025px) and (max-width: 1440px) {
+    margin-top: -80px;
+    padding: 30px;
+    height: auto;
 
     & h4 {
-      font-size: 1.75rem;
+      margin-left: 0;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    & content {
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .divider {
+      width: 80%;
+      height: 2px;
+      border-left: none;
+      border-top: 2px solid #e5e7eb;
+      margin: 0;
+    }
+
+    & .awards {
+      width: 100%;
+      gap: 50px;
+    }
+
+    .stats {
+      width: 100%;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 24px;
+
+    .stats {
+      flex-direction: column;
+      gap: 30px;
     }
   }
 }

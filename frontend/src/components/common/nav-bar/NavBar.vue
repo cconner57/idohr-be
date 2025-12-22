@@ -67,13 +67,13 @@ const isTablet = useIsTablet()
     overflow: hidden;
     align-self: center;
     transition: background-color 0.3s ease;
-
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      & .nav-links {
+    max-width: 1600px;
+    .nav-logo {
+      .nav-item {
+        text-decoration: none;
+      }
+    }
+    & .nav-links {
         display: flex;
         gap: 4rem;
         & .nav-item {
@@ -98,7 +98,7 @@ const isTablet = useIsTablet()
         }
       }
     }
-  }
+
   .nav-blurred {
     background-color: hsl(182, 100%, 23%, 0.75);
     backdrop-filter: blur(10px);

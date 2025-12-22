@@ -1,34 +1,34 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { IPet } from '../../../models/common'
-import { formatDate } from '../../../utils/common'
+import type { IPet } from '../../../models/common.ts'
+import { formatDate } from '../../../utils/common.ts'
 
 const props = defineProps<{
   pet: IPet
 }>()
 
 const isSpayedOrNeutered = (pet: IPet) => {
-  return pet.physicalTraits?.sex === 'Male' ? 'Neutered' : 'Spayed'
+  return pet?.sex === 'male' ? 'Neutered' : 'Spayed'
 }
 
 const goodWithText = computed(() => {
-  const traits = props.pet.behavioralTraits
-  if (!traits || (!traits.goodWithCats && !traits.goodWithDogs && !traits.goodWithKids)) {
+  const traits = props.pet.behavior
+  if (!traits || (!traits.isGoodWithCats && !traits.isGoodWithDogs && !traits.isGoodWithKids)) {
     return 'N/A'
   }
 
   const goodWith: string[] = []
-  if (traits.goodWithCats) goodWith.push('Other Cats')
-  if (traits.goodWithDogs) goodWith.push('Other Dogs')
-  if (traits.goodWithKids) goodWith.push('Kids')
+  if (traits.isGoodWithCats) goodWith.push('Other Cats')
+  if (traits.isGoodWithDogs) goodWith.push('Other Dogs')
+  if (traits.isGoodWithKids) goodWith.push('Kids')
 
   return goodWith.join(', ')
 })
 const houseTrainedText = () => {
-  if (props.pet.behavioralTraits?.houseTrained === undefined) {
+  if (props.pet.behavior?.isHouseTrained === undefined) {
     return 'N/A'
   }
-  if (props.pet.behavioralTraits?.houseTrained) {
+  if (props.pet.behavior?.isHouseTrained) {
     return 'Yes'
   } else {
     return 'No'
@@ -40,19 +40,19 @@ const houseTrainedText = () => {
   <div class="adopt-detail__additional-info">
     <div class="adopt-detail__additional-info__item">
       <p>Breed</p>
-      <p>{{ pet.physicalTraits?.breed ?? 'N/A' }}</p>
+      <p>{{ pet.physical?.breed ?? 'N/A' }}</p>
     </div>
     <div class="adopt-detail__additional-info__item">
       <p>Color</p>
-      <p>{{ pet.physicalTraits?.color ?? 'N/A' }}</p>
+      <p>{{ pet.physical?.color ?? 'N/A' }}</p>
     </div>
     <div class="adopt-detail__additional-info__item">
       <p>Size</p>
-      <p>{{ pet.physicalTraits?.size ?? 'N/A' }}</p>
+      <p>{{ pet.physical?.size ?? 'N/A' }}</p>
     </div>
     <div class="adopt-detail__additional-info__item">
       <p>Birthday</p>
-      <p>{{ formatDate(pet?.physicalTraits?.age ?? '') }}</p>
+      <p>{{ formatDate(pet?.physical?.dateOfBirth ?? '') }}</p>
     </div>
     <div class="adopt-detail__additional-info__item">
       <p>House-trained</p>
@@ -61,13 +61,13 @@ const houseTrainedText = () => {
     <div class="adopt-detail__additional-info__item">
       <p>Health</p>
       <p>
-        {{ pet.medicalHistory?.vaccinationsUpToDate ? 'Vaccinated' : 'Not Vaccinated' }},
+        {{ pet.medical?.vaccinationsUpToDate ? 'Vaccinated' : 'Not Vaccinated' }},
         {{
-          pet.medicalHistory?.spayedOrNeutered
+          pet.medical?.spayedOrNeutered
             ? isSpayedOrNeutered(pet)
             : `Not ${isSpayedOrNeutered(pet)}`
         }},
-        {{ pet.medicalHistory?.microchipped ? 'Microchipped' : 'Not Microchipped' }}
+        {{ pet.medical?.microchip.microchipped ? 'Microchipped' : 'Not Microchipped' }}
       </p>
     </div>
     <div class="adopt-detail__additional-info__item">
@@ -76,7 +76,7 @@ const houseTrainedText = () => {
     </div>
     <div class="adopt-detail__additional-info__item">
       <p>Adoption Fee</p>
-      <p>{{ pet.adoption.fee !== null ? '$' + pet.adoption.fee : 'N/A' }}</p>
+      <p>{{ pet?.adoption?.fee !== undefined ? '$' + pet?.adoption?.fee : 'N/A' }}</p>
     </div>
   </div>
 </template>

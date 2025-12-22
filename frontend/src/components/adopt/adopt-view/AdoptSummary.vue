@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { IPet } from '../../../models/common'
+import type { IPet } from '../../../models/common.ts'
 import PetItem from '../../common/pet-item/PetItem.vue'
-import { formatDate } from '../../../utils/common'
+import { formatDate } from '../../../utils/common.ts'
 
 defineProps<{
   pets: IPet[]
 }>()
+
+
 </script>
 
 <template>
@@ -13,15 +15,15 @@ defineProps<{
     <PetItem
       v-for="pet in pets"
       :capsules="[
-        pet?.physicalTraits?.species ?? '',
-        pet?.physicalTraits?.sex ?? '',
-        pet?.physicalTraits?.age ? formatDate(pet?.physicalTraits?.age ?? '', true) : '',
+        pet?.species ?? '',
+        pet?.sex ?? '',
+        pet?.physical?.dateOfBirth ? formatDate(pet?.physical?.dateOfBirth ?? '', true) : '',
       ]"
-      :description="pet.descriptions?.physicalDescription ?? ''"
+      :description="pet.descriptions?.fun ?? ''"
       :id="pet.id"
       :key="pet.id"
       :name="pet.name"
-      :photo="pet.photos?.primaryPhoto"
+      :photo="pet.photos?.find((p) => p.isPrimary)?.url"
     />
   </div>
 </template>
