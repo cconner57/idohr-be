@@ -190,7 +190,7 @@ import Footer from '../components/common/footer/Footer.vue'
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 360px;
+    min-height: 280px;
     color: #666;
     font-size: 1rem;
     text-align: center;
