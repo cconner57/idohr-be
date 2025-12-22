@@ -28,7 +28,7 @@ import Candid from '../../common/candid-award/Candid.vue'
 
 <style scoped lang="css">
 .impact {
-  max-width: var(--desktop-breakpoint);
+  width: 100%;
   background-color: var(--white);
   display: flex;
   flex-direction: column;
@@ -132,7 +132,7 @@ import Candid from '../../common/candid-award/Candid.vue'
   @media (min-width: 769px) and (max-width: 1024px) {
   }
   @media (min-width: 1025px) and (max-width: 1440px) {
-    max-width: 1120px;
+
     & h4 {
       font-size: 1.75rem;
     }

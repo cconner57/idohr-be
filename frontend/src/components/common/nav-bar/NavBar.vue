@@ -1,41 +1,13 @@
 <script setup lang="ts">
-import { ref, watch, onUnmounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { goToDonate } from '../../../utils/navigate'
+import { goToDonate } from '../../../utils/navigate.ts'
 import Button from '../ui/Button.vue'
 import NavDrawer from './NavDrawer.vue'
-import { useIsMobile, useIsTablet } from '../../../utils/useIsMobile'
+import { useIsMobile, useIsTablet } from '../../../utils/useIsMobile.ts'
 
-const isScrolledDown = ref(false)
 const router = useRouter()
 const route = useRoute()
-
-const handleScroll = () => {
-  isScrolledDown.value = window.scrollY > 50
-}
-
-const add = () => window.addEventListener('scroll', handleScroll, { passive: true })
-const remove = () => window.removeEventListener('scroll', handleScroll)
-
-watch(
-  () => route.path,
-  (path, _prev, onCleanup) => {
-    remove()
-
-    if (!['/'].includes(path)) {
-      isScrolledDown.value = true
-      return
-    }
-
-    isScrolledDown.value = window.scrollY > 50
-    add()
-
-    onCleanup(() => remove())
-  },
-  { immediate: true },
-)
-
-onUnmounted(remove)
 
 const menuOpen = ref(false)
 
@@ -52,11 +24,7 @@ const isTablet = useIsTablet()
 
 <template>
   <div class="nav-bar">
-    <nav
-      v-if="isMobile || isTablet"
-      :class="{ 'nav-blurred': isScrolledDown }"
-      aria-label="Primary navigation"
-    >
+    <nav v-if="isMobile || isTablet" class="nav-blurred" aria-label="Primary navigation">
       <div class="nav-logo">
         <RouterLink to="/" class="nav-item">
           <img src="/images/idohr-logo.jpg" alt="" />
@@ -65,7 +33,7 @@ const isTablet = useIsTablet()
       </div>
       <NavDrawer v-model="menuOpen" :size="28" style="color: #fff" />
     </nav>
-    <nav v-else :class="{ 'nav-blurred': isScrolledDown }" aria-label="Primary navigation">
+    <nav v-else class="nav-blurred" aria-label="Primary navigation">
       <div class="nav-container">
         <section class="nav-links">
           <RouterLink to="/" class="nav-item" active-class="active"><p>Home</p></RouterLink>
@@ -87,14 +55,14 @@ const isTablet = useIsTablet()
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem 9.75rem;
+    padding: 1rem var(--layout-padding-side);
     gap: 47.5rem;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    width: 100dvw;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
     align-self: center;
@@ -105,7 +73,6 @@ const isTablet = useIsTablet()
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      max-width: 1100px;
       & .nav-links {
         display: flex;
         gap: 4rem;

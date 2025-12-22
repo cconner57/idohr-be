@@ -61,52 +61,126 @@ onMounted(() => {
 main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 64px;
 
+  /* 0px - 320px */
+  @media (min-width: 0px) and (max-width: 320px) {
+    gap: 24px;
+  }
+
+  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
-    padding: 0 1rem;
     gap: 40px;
+  }
+
+  /* 431px - 768px */
+  @media (min-width: 431px) and (max-width: 768px) {
+    gap: 48px;
+  }
+
+  /* 769px - 1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    gap: 56px;
   }
 }
 
 .section-1 {
   background-color: var(--background);
-  padding-bottom: 220px;
+  padding: 0 var(--layout-padding-side) 60px;
   margin-top: -20px;
-  height: 975px;
+  min-height: auto;
+  width: 100%;
 
+  /* 0px - 320px */
+  @media (min-width: 0px) and (max-width: 320px) {
+    margin-top: 0;
+    padding-bottom: 40px;
+  }
+
+  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
-    margin: 0px;
+    margin-top: 0;
     padding-bottom: 60px;
-    height: auto;
+  }
+
+  /* 431px - 768px */
+  @media (min-width: 431px) and (max-width: 768px) {
+    margin-top: 0;
+    padding-bottom: 80px;
+  }
+
+  /* 769px - 1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding-bottom: 120px;
   }
 }
 
 .section-2 {
   background-color: var(--white);
-  padding-top: 150px;
-  padding-bottom: 220px;
-  height: 550px;
+  padding: 60px var(--layout-padding-side) 80px;
+  height: auto;
+  width: 100%;
 
+  /* 0px - 320px */
+  @media (min-width: 0px) and (max-width: 320px) {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
-    padding: 40px 2rem 0;
-    height: auto;
+    padding-top: 60px;
+    padding-bottom: 80px;
+  }
+
+  /* 431px - 768px */
+  @media (min-width: 431px) and (max-width: 768px) {
+    padding-top: 80px;
+    padding-bottom: 100px;
+  }
+
+  /* 769px - 1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding-top: 100px;
+    padding-bottom: 150px;
   }
 }
 
 .call-to-action {
   display: flex;
-  margin: 20px 0 80px;
-  max-width: var(--desktop-breakpoint);
-  padding: 0 60px;
+  margin: 20px 0 0;
   gap: 60px;
+  width: 100%;
+  justify-content: flex-start;
 
+  & > * {
+    flex: 1;
+  }
+
+  /* 0px - 320px */
+  @media (min-width: 0px) and (max-width: 320px) {
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0 40px;
+  }
+
+  /* 321px - 430px */
   @media (min-width: 321px) and (max-width: 430px) {
     flex-direction: column;
     gap: 20px;
-    margin: 10px 0 40px;
-    padding: 0 2rem;
+    margin: 20px 0 40px;
+  }
+
+  /* 431px - 768px */
+  @media (min-width: 431px) and (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  /* 769px - 1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    gap: 40px;
   }
 }
 

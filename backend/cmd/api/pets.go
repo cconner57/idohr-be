@@ -1,36 +1,31 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-// Fixes app.GetSpotlightPets
-func (app *application) getSpotlightPet(w http.ResponseWriter, r *http.Request) {
-	// Call the DB model we made earlier
+func (app *application) getSpotlightPets(w http.ResponseWriter, r *http.Request) {
 	pet, err := app.models.Pets.GetSpotlight()
 	if err != nil {
+		fmt.Println("Handler GetSpotlight Error:", err)
 		app.serverErrorResponse(w, r, err)
 		return
 	}
 
-	err = app.writeJSON(w, http.StatusOK, envelope{"pet": pet}, nil)
-	if err != nil {
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(pet); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
 }
 
-// Fixes app.GetAllPets
-// (Note: You'll need to add a GetAll() method to internal/data/pets.go later if you haven't yet.
-// For now, let's just make it return a placeholder so the error goes away)
 func (app *application) getAllPets(w http.ResponseWriter, r *http.Request) {
-	// placeholder for now
 	data := envelope{"message": "GetAllPets coming soon"}
 	app.writeJSON(w, http.StatusOK, data, nil)
 }
 
-// Fixes app.GetAvailablePets
 func (app *application) getAvailablePets(w http.ResponseWriter, r *http.Request) {
-	// placeholder for now
 	data := envelope{"message": "GetAvailablePets coming soon"}
 	app.writeJSON(w, http.StatusOK, data, nil)
 }

@@ -44,6 +44,26 @@
   --viewport-landscape-tablet: 1024px;
   --viewport-desktop: 1280px;
   --viewport-large-desktop: 1440px;
+  /* Global Layout Padding matching Hero Section */
+  --layout-padding-side: clamp(16px, 10dvw, 170px);
+}
+
+@media (min-width: 321px) and (max-width: 430px) {
+  :root {
+    --layout-padding-side: 2.85rem;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    --layout-padding-side: 10rem;
+  }
+}
+
+@media (min-width: 1441px) {
+  :root {
+    --layout-padding-side: 15rem;
+  }
 }
 
 *,

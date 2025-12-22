@@ -50,7 +50,7 @@ const imgSrcComputed = computed(() => (props.imgSrc && props.imgSrc.length ? pro
   border-radius: 8px;
   cursor: pointer;
   height: 160px;
-  width: 300px;
+  width: 100%;
   transition:
     background-color 0.2s,
     border-color 0.2s;

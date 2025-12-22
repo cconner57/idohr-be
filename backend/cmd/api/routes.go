@@ -12,7 +12,7 @@ func (app *application) routes() http.Handler { // <--- lowercase application
 	// Register Routes (Use the lowercase function names we just defined)
 	mux.HandleFunc("GET /", app.home)
 	mux.HandleFunc("GET /pets", app.getAllPets)
-	mux.HandleFunc("GET /pets/spotlight", app.getSpotlightPet) // singular or plural? match the func name
+	mux.HandleFunc("GET /pets/spotlight", app.getSpotlightPets)
 	mux.HandleFunc("GET /pets/available", app.getAvailablePets)
 
 	// Add the new Volunteer Route

@@ -2,21 +2,16 @@ package data // <--- Must be 'data'
 
 import (
 	"database/sql"
-	"errors"
-	"time"
+	"encoding/json"
+	"fmt"
 )
 
 // Define the Pet struct (matching your DB table)
-type Pet struct {
-	ID          int64     `json:"id"`
-	CreatedAt   time.Time `json:"createdAt"`
-	Name        string    `json:"name"`
-	Species     string    `json:"species"`
-	Breed       string    `json:"breed"`
-	Age         int       `json:"age"`
-	Description string    `json:"description"`
-	Status      string    `json:"status"`
-	ImageURL    string    `json:"imageUrl"` // Optional: if you added this column
+type SpotlightPet struct {
+	ID           string          `json:"id"`
+	Name         string          `json:"name"`
+	Descriptions json.RawMessage `json:"descriptions"`
+	Photos       json.RawMessage `json:"photos"`
 }
 
 // Define the Model wrapper
@@ -24,34 +19,38 @@ type PetModel struct {
 	DB *sql.DB
 }
 
-// Add a method to get the Spotlight pet
-func (m PetModel) GetSpotlight() (*Pet, error) {
+func (m PetModel) GetSpotlight() ([]*SpotlightPet, error) {
+	// This query looks for the boolean column we updated
 	query := `
-		SELECT id, created_at, name, species, breed, age, description, status 
-		FROM pets 
-		ORDER BY RANDOM() 
-		LIMIT 1`
+        SELECT id, name, COALESCE(descriptions, '{}'), COALESCE(photos, '[]')
+        FROM pets
+        WHERE profile_settings->>'is_spotlight_featured' = 'true'
+           OR profile_settings->>'isSpotlightFeatured' = 'true'
+        LIMIT 4`
 
-	var pet Pet
-
-	// Execute query
-	err := m.DB.QueryRow(query).Scan(
-		&pet.ID,
-		&pet.CreatedAt,
-		&pet.Name,
-		&pet.Species,
-		&pet.Breed,
-		&pet.Age,
-		&pet.Description,
-		&pet.Status,
-	)
-
+	rows, err := m.DB.Query(query)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, errors.New("no pets found")
-		}
+		fmt.Println("Query Error:", err)
 		return nil, err
 	}
+	defer rows.Close()
 
-	return &pet, nil
+	pets := []*SpotlightPet{}
+
+	for rows.Next() {
+		var pet SpotlightPet
+		err := rows.Scan(
+			&pet.ID,
+			&pet.Name,
+			&pet.Descriptions,
+			&pet.Photos,
+		)
+		if err != nil {
+			fmt.Println("Scan Error:", err)
+			return nil, err
+		}
+		pets = append(pets, &pet)
+	}
+
+	return pets, nil
 }

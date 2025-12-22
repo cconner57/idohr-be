@@ -23,7 +23,7 @@ function handleAdopt() {
   inline-size: 100%;
   min-height: 600px;
   background: url('/images/hero3.png') center 70% / cover no-repeat;
-  padding: 100px clamp(16px, 10dvw, 170px) 40px;
+  padding: 100px var(--layout-padding-side) 40px;
   overflow: hidden;
 
   & h1 {
@@ -37,7 +37,8 @@ function handleAdopt() {
   }
 
   @media (min-width: 321px) and (max-width: 430px) {
-    padding: 8rem 2.85rem 2rem;
+    padding-top: 8rem;
+    padding-bottom: 2rem;
     min-height: 400px;
     background-position: 50% 20%;
 
@@ -51,14 +52,16 @@ function handleAdopt() {
   }
 
   @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 8rem 10rem 2rem;
+    padding-top: 8rem;
+    padding-bottom: 2rem;
     & h1 {
       font-size: 5rem;
       line-height: 80px;
     }
   }
   @media (min-width: 1441px) {
-    padding: 8rem 15rem 2rem;
+    padding-top: 8rem;
+    padding-bottom: 2rem;
     & h1 {
       font-size: 6rem;
       line-height: 100px;

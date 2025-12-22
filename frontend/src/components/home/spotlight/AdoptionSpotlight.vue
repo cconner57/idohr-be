@@ -65,10 +65,9 @@ const displayedPets = computed((): IPet[] => {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin: -120px auto 0;
-  max-width: 1440px;
+  margin: -120px 0 0;
+  width: 100%;
   padding: 24px 50px 40px 50px;
-  max-height: 510px;
 
   & h4 {
     font-size: 2rem;
@@ -78,8 +77,11 @@ const displayedPets = computed((): IPet[] => {
   .pet-list {
     display: flex;
     gap: 3rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
   }
 
   @media (min-width: 321px) and (max-width: 430px) {
@@ -105,7 +107,7 @@ const displayedPets = computed((): IPet[] => {
   }
   @media (min-width: 1025px) and (max-width: 1440px) {
     width: 100%;
-    max-width: 1120px;
+    width: 100%;
     padding: 24px 30px 30px;
     & h4 {
       font-size: 1.75rem;
