@@ -84,7 +84,7 @@ const displayedPets = computed((): IPet[] => {
     justify-content: flex-start;
   }
 
-  @media (min-width: 321px) and (max-width: 430px) {
+  @media (max-width: 430px) {
     margin: 2rem 0 0;
     padding: 1rem 2rem;
     gap: 0.5rem;

@@ -22,7 +22,7 @@ function handleAdopt() {
   box-sizing: border-box;
   inline-size: 100%;
   min-height: 600px;
-  background: url('/images/hero3.png') center 70% / cover no-repeat;
+  background: url('/images/hero.png') center 70% / cover no-repeat;
   padding: 100px var(--layout-padding-side) 40px;
   overflow: hidden;
 

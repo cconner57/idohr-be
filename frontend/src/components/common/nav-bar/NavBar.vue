@@ -56,7 +56,6 @@ const isTablet = useIsTablet()
     justify-content: center;
     align-items: center;
     padding: 1rem var(--layout-padding-side);
-    gap: 47.5rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -67,7 +66,15 @@ const isTablet = useIsTablet()
     overflow: hidden;
     align-self: center;
     transition: background-color 0.3s ease;
-    max-width: 1600px;
+
+    .nav-container {
+      width: 100%;
+      max-width: 1600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .nav-logo {
       .nav-item {
         text-decoration: none;
