@@ -16,10 +16,9 @@ const props = defineProps<{
   hasError?: boolean
 }>()
 
-// eslint-disable-next-line no-unused-vars
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string | number | null): void
-  (e: 'blur', event: Event): void
+  'update:modelValue': [value: string | number | null]
+  'blur': [event: Event]
 }>()
 
 const attrs = useAttrs()
@@ -84,10 +83,11 @@ input {
   font-size: 1rem;
   transition: all 0.2s;
   background-color: #ffffff; /* Explicit white background */
+  caret-color: #000000; /* Ensure caret is always visible */
 
   &::placeholder {
-    color: var(--font-color-light);
-    opacity: 0.6;
+    color: #6b7280; /* Darker gray for better visibility */
+    opacity: 1;
   }
 }
 
@@ -111,8 +111,8 @@ input[type='time'].is-empty {
 
 input[type='date']::placeholder,
 input[type='time']::placeholder {
-  color: var(--font-color-dark);
-  opacity: 0.6;
+  color: #6b7280;
+  opacity: 1;
 }
 
 .field.is-fullwidth {

@@ -77,7 +77,7 @@ const handleBlur = (field: string) => {
 
 const isFormValid = computed(() => {
   // Required Personal Info
-  if (!formState.firstName || !formState.lastName || !formState.address || !formState.city || !formState.zip || !formState.phoneNumber || !formState.birthday || formState.age === null || !formState.allergies || !formState.emergencyContactName || !formState.emergencyContactPhone) {
+  if (!formState.firstName || !formState.lastName || !formState.address || !formState.city || !formState.zip || !formState.phoneNumber || !formState.birthday || formState.age === null || !formState.emergencyContactName || !formState.emergencyContactPhone) {
     return false
   }
 
@@ -111,9 +111,10 @@ const validationErrors = computed(() => {
   if (!formState.phoneNumber) errors.push('Phone Number')
   if (!formState.birthday) errors.push('Birthday')
   if (formState.age === null) errors.push('Age')
-  if (!formState.allergies) errors.push('Allergies (enter "None" if applicable)')
+  // Allergies is optional/defaults to "None" logic handled by backend or not required
   if (!formState.emergencyContactName) errors.push('Emergency Contact Name')
   if (!formState.emergencyContactPhone) errors.push('Emergency Contact Phone')
+  if (!formState.volunteerExperience && false) errors.push('Experience') // Optional
   if (!formState.interestReason) errors.push('Interest Reason')
   if (formState.positionPreferences.length === 0) errors.push('Position Preferences')
   if (formState.availability.length === 0) errors.push('Availability')
@@ -128,16 +129,38 @@ const validationErrors = computed(() => {
   return errors
 })
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!isFormValid.value) {
     // Mark all as touched to show errors on explicit submit attempt
     Object.keys(formState).forEach(key => touched[key] = true)
     return
   }
 
-  console.log('Form submitted successfully:', formState)
-  alert('Application submitted successfully!')
-  // TODO: Add API call here
+  try {
+    const response = await fetch('http://localhost:4000/applications/volunteer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formState),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      console.error('Submission failed:', errorData)
+      alert(`Submission failed: ${errorData.error || 'Unknown error'}`)
+      return
+    }
+
+    const result = await response.json()
+    console.log('Form submitted successfully:', result)
+    alert('Application submitted successfully!')
+
+    // Optional: Reset form here
+  } catch (error) {
+    console.error('Network error:', error)
+    alert('Network error. Please try again later.')
+  }
 }
 </script>
 
@@ -249,7 +272,6 @@ const handleSubmit = () => {
         <Allergies
           v-model="formState.allergies"
           :class="{ 'has-error': touched.allergies && !formState.allergies }"
-          @vnode-updated="() => {} /* simple placeholder, complex components need internal error logic */"
         />
 
         <InputField

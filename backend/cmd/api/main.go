@@ -5,13 +5,17 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
+
+	"strconv" // Helper for port parsing
+
 	"github.com/cconner57/adoption-os/backend/internal/data"
+	"github.com/cconner57/adoption-os/backend/internal/mailer" // Import mailer
 	_ "github.com/lib/pq"
 )
 
@@ -24,12 +28,20 @@ type config struct {
 		maxIdleConns int
 		maxIdleTime  string
 	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
+		sender   string
+	}
 }
 
 type application struct {
 	config config
 	logger *log.Logger
-	models data.Models // This lets handlers talk to the DB
+	models data.Models
+	mailer mailer.Mailer // Add Mailer dependency
 }
 
 func main() {
@@ -44,9 +56,16 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 8080, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 
-	// Read the DB DSN from the environment or flag
-	// Note: We usually default to an empty string here and rely on the Makefile or .env
+	// DB
 	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("DB_DSN"), "PostgreSQL DSN")
+
+	// SMTP
+	flag.StringVar(&cfg.smtp.host, "smtp-host", os.Getenv("SMTP_HOST"), "SMTP host")
+	port, _ := strconv.Atoi(os.Getenv("SMTP_PORT")) // Simple fallback for env reading
+	flag.IntVar(&cfg.smtp.port, "smtp-port", port, "SMTP port")
+	flag.StringVar(&cfg.smtp.username, "smtp-username", os.Getenv("SMTP_USERNAME"), "SMTP username")
+	flag.StringVar(&cfg.smtp.password, "smtp-password", os.Getenv("SMTP_PASSWORD"), "SMTP password")
+	flag.StringVar(&cfg.smtp.sender, "smtp-sender", os.Getenv("SMTP_SENDER"), "SMTP sender email")
 
 	flag.Parse()
 
@@ -65,7 +84,8 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
-		models: data.NewModels(db), // Initialize your models here
+		models: data.NewModels(db),
+		mailer: mailer.New(cfg.smtp.host, cfg.smtp.port, cfg.smtp.username, cfg.smtp.password, cfg.smtp.sender),
 	}
 
 	// Start the server

@@ -11,7 +11,7 @@
         <input type="checkbox" value="10AM – 12PM" />
         <div class="time-card__content">
           <strong>10AM – 12PM</strong>
-          <small>Clean, feed & socialize with cats</small>
+          <small>Clean, feed, & socialize with cats</small>
         </div>
       </label>
 
@@ -43,7 +43,23 @@
         <input type="checkbox" value="6PM – 8PM" />
         <div class="time-card__content">
           <strong>6PM – 8PM</strong>
-          <small>Clean, feed & socialize with cats</small>
+          <small>Clean, feed, & socialize with cats</small>
+        </div>
+      </label>
+
+      <label class="time-card">
+        <input type="checkbox" value="Adoption Event: 12pm - 2pm" />
+        <div class="time-card__content">
+          <strong>Adoption Event: 12pm - 2pm</strong>
+          <small>Focus on cat adoptions & customer support</small>
+        </div>
+      </label>
+
+      <label class="time-card">
+        <input type="checkbox" value="Adoption Event: 2pm - 4pm" />
+        <div class="time-card__content">
+          <strong>Adoption Event: 2pm - 4pm</strong>
+          <small>Focus on cat adoptions & customer support</small>
         </div>
       </label>
 

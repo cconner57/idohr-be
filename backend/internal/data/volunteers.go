@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/cconner57/adoption-os/backend/internal/validator"
 	"github.com/lib/pq"
 )
 
@@ -60,4 +61,41 @@ func (m VolunteerModel) Insert(application *VolunteerApplication) error {
 	}
 
 	return m.DB.QueryRowContext(context.Background(), query, args...).Scan(&application.ID, &application.CreatedAt, &application.Status)
+}
+
+func ValidateVolunteerApplication(v *validator.Validator, application *VolunteerApplication) {
+	// Personal Info
+	v.Check(application.FirstName != "", "firstName", "must be provided")
+	v.Check(application.LastName != "", "lastName", "must be provided")
+	v.Check(application.Address != "", "address", "must be provided")
+	v.Check(application.City != "", "city", "must be provided")
+	v.Check(application.Zip != "", "zip", "must be provided")
+	v.Check(application.PhoneNumber != "", "phoneNumber", "must be provided")
+	v.Check(application.Birthday != "", "birthday", "must be provided")
+
+	v.Check(application.Age != nil, "age", "must be provided")
+	if application.Age != nil {
+		v.Check(*application.Age >= 0, "age", "must be a positive number")
+	}
+
+	v.Check(application.EmergencyContactName != "", "emergencyContactName", "must be provided")
+	v.Check(application.EmergencyContactPhone != "", "emergencyContactPhone", "must be provided")
+
+	// Experience & Interests
+	// v.Check(application.VolunteerExperience != "", "volunteerExperience", "must be provided") // Optional
+	v.Check(application.InterestReason != "", "interestReason", "must be provided")
+	v.Check(len(application.PositionPreferences) > 0, "positionPreferences", "must select at least one position")
+	v.Check(len(application.Availability) > 0, "availability", "must select at least one availability slot")
+
+	// Agreement
+	v.Check(application.NameFull != "", "nameFull", "must be provided")
+	v.Check(application.SignatureDate != "", "signatureDate", "must be provided")
+	v.Check(application.SignatureData != nil && *application.SignatureData != "", "signatureData", "must be provided")
+
+	// Parental Consent (Under 21)
+	if application.Age != nil && *application.Age < 21 {
+		v.Check(application.ParentName != "", "parentName", "must be provided for applicants under 21")
+		v.Check(application.ParentSignatureDate != "", "parentSignatureDate", "must be provided for applicants under 21")
+		v.Check(application.ParentSignatureData != nil && *application.ParentSignatureData != "", "parentSignatureData", "must be provided for applicants under 21")
+	}
 }
