@@ -73,10 +73,11 @@ const { headerTitle, headerText } = defineProps<{
 }
 .lede {
   color: black;
-  margin: 6px 0 18px;
+  margin: 6px auto 18px;
   font-size: 1.125rem;
   line-height: 1.6;
-  max-width: 1000px;
+  line-height: 1.6;
+  max-width: 800px;
   user-select: none;
   font-weight: 400;
   @media (max-width: 440px) {

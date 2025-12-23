@@ -69,6 +69,7 @@ fieldset.field {
     background 0.2s,
     border-color 0.2s,
     box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   span {
     font-weight: 600;

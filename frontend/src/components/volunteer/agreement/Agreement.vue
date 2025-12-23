@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VolunteerFormState } from '../../../models/common'
+import type { IVolunteerFormState } from '../../../models/volunteer-form.ts'
 import InputField from '../../common/ui/InputField.vue'
 import InputSignature from '../../common/ui/InputSignature.vue'
 
@@ -22,7 +22,12 @@ const {
   parentSignature: string | null
   signature: string | null
   signatureDate: string
-  formState: VolunteerFormState
+  formState: IVolunteerFormState
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:fullName', value: string): void
+  (e: 'update:parentName', value: string): void
 }>()
 </script>
 
@@ -38,19 +43,29 @@ const {
 
     <div class="acknowledgement">
       <div class="name-date-container">
-        <InputField label="Name" placeholder="" :modelValue="fullName" />
+        <InputField
+          label="Name"
+          placeholder=""
+          :modelValue="fullName"
+          @update:modelValue="(val) => emit('update:fullName', String(val))"
+        />
         <InputField label="Date" placeholder="" type="date" :modelValue="signatureDate" />
       </div>
       <InputSignature label="Signature" placeholder="" :modelValue="signature" />
     </div>
 
-    <label v-if="age !== null && age < 18" for="parental-consent" class="label"
-      >If under 18, I ({{ parentName === '' ? 'parent/guardian name' : parentName }}) give
+    <label v-if="age !== null && age < 21" for="parental-consent" class="label"
+      >If under 21, I ({{ parentName === '' ? 'parent/guardian name' : parentName }}) give
       permission for my child to volunteer with IDOHR and agree to the above waiver.</label
     >
-    <div v-if="age !== null && age < 18" class="parentGuardian">
+    <div v-if="age !== null && age < 21" class="parentGuardian">
       <div class="name-date-container">
-        <InputField label="Parent/Guardian Name" placeholder="" v-model="formState.parentName" />
+        <InputField
+          label="Parent/Guardian Name"
+          placeholder=""
+          :modelValue="parentName"
+          @update:modelValue="(val) => emit('update:parentName', String(val))"
+        />
         <InputField label="Date" placeholder="" type="date" :modelValue="parentDate" />
       </div>
       <InputSignature
@@ -119,6 +134,7 @@ const {
   padding: 12px;
   border-radius: 10px;
   font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.4;
   margin-bottom: 12px;
   width: 100%;

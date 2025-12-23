@@ -6,58 +6,68 @@ import Candid from '../components/common/candid-award/Candid.vue'
 <template>
   <main class="about">
     <section class="hero">
-      <h1>About IDOHR</h1>
-      <p class="lead">
-        I Dream of Home Rescue (IDOHR) is a volunteer-powered nonprofit helping homeless cats and
-        dogs heal, thrive, and find loving homes across Southern California.
-      </p>
+      <div class="content-wrapper">
+        <h1>About IDOHR</h1>
+        <p class="lead">
+          I Dream of Home Rescue (IDOHR) is a volunteer-powered nonprofit helping homeless cats and
+          dogs heal, thrive, and find loving homes across Southern California.
+        </p>
+      </div>
     </section>
 
     <section class="story">
-      <content>
-        <img src="/images/watercolor.jpeg" alt="IDOHR watercolor inspiration" />
-      </content>
-      <div class="story-text">
-        <h2>Our Story</h2>
-        <p>
-          IDOHR began with a simple dream: to give every abandoned, neglected, and unwanted animal a
-          safe place to call home. What started as a small circle of fosters has grown into a
-          community of adopters, volunteers, and supporters who believe compassion changes
-          lives—both animal and human.
-        </p>
+      <div class="content-wrapper">
+        <content>
+          <img src="/images/watercolor.jpeg" alt="IDOHR watercolor inspiration" />
+        </content>
+        <div class="story-text">
+          <h2>Our Story</h2>
+          <p>
+            IDOHR began with a simple dream: to give every abandoned, neglected, and unwanted animal a
+            safe place to call home. What started as a small circle of fosters has grown into a
+            community of adopters, volunteers, and supporters who believe compassion changes
+            lives—both animal and human.
+          </p>
+        </div>
       </div>
     </section>
 
     <section class="mission">
-      <content>
-        <h2 class="text-on-teal">Our Mission</h2>
-        <p class="text-on-teal">
-          We rescue, rehabilitate, and rehome animals in need—one tail, one paw, one heart at a
-          time. Every animal receives medical care, a safe foster home, love-based socialization,
-          and a path to a forever family.
-        </p>
-        <ul class="ticks text-on-teal">
-          <li>Vaccinations, microchipping, and spay/neuter</li>
-          <li>Medical treatment and behavioral support</li>
-          <li>Adopter education and lifetime support</li>
-        </ul>
-      </content>
-      <img class="mission-image" src="/images/mission.png" alt="Happy adopted dog and cat" />
+      <div class="content-wrapper">
+        <content>
+          <h2 class="text-on-teal">Our Mission</h2>
+          <p class="text-on-teal">
+            We rescue, rehabilitate, and rehome animals in need—one tail, one paw, one heart at a
+            time. Every animal receives medical care, a safe foster home, love-based socialization,
+            and a path to a forever family.
+          </p>
+          <ul class="ticks text-on-teal">
+            <li>Vaccinations, microchipping, and spay/neuter</li>
+            <li>Medical treatment and behavioral support</li>
+            <li>Adopter education and lifetime support</li>
+          </ul>
+        </content>
+        <div class="image-wrapper">
+            <img class="mission-image" src="/images/mission.png" alt="Happy adopted dog and cat" />
+        </div>
+      </div>
     </section>
 
     <section class="transparency">
-      <div class="awards">
-        <Candid type="Gold" year="2024" />
-        <Candid type="Gold" year="2023" />
-        <Candid type="Silver" year="2022" />
-      </div>
-      <div class="notice">
-        <h2>Transparency</h2>
-        <p>
-          IDOHR is a 501(c)(3) nonprofit. Donations are tax-deductible as allowed by law. We publish
-          annual updates and operate with financial transparency.
-        </p>
-        <p class="small">EIN: 81-0780050 • PO Box 7612, La Verne, CA 91750</p>
+      <div class="content-wrapper">
+        <div class="awards">
+          <Candid type="Gold" year="2024" />
+          <Candid type="Gold" year="2023" />
+          <Candid type="Silver" year="2022" />
+        </div>
+        <div class="notice">
+          <h2>Transparency</h2>
+          <p>
+            IDOHR is a 501(c)(3) nonprofit. Donations are tax-deductible as allowed by law. We publish
+            annual updates and operate with financial transparency.
+          </p>
+          <p class="small">EIN: 81-0780050 • PO Box 7612, La Verne, CA 91750</p>
+        </div>
       </div>
     </section>
   </main>
@@ -69,10 +79,30 @@ import Candid from '../components/common/candid-award/Candid.vue'
   width: 100%;
   overflow: hidden;
   color: var(--font-color-dark);
+
+  /* Shared wrapper style */
+  .content-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    /* padding: 0 var(--layout-padding-side); removed padding to match NavBar logic */
+    box-sizing: border-box;
+  }
+
   .hero {
-    padding: 150px 180px 50px;
+    padding: 150px var(--layout-padding-side) 50px;
     color: var(--font-color-light);
     background-color: var(--green);
+    display: flex;
+    justify-content: center;
+
+    .content-wrapper {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     h1 {
       font-size: 2.5rem;
     }
@@ -80,63 +110,85 @@ import Candid from '../components/common/candid-award/Candid.vue'
       font-size: 1.25rem;
       max-width: 600px;
       margin-top: 12px;
-    }
-  }
-  .story,
-  .mission {
-    display: flex;
-    justify-content: space-between;
-    gap: 8rem;
-    & h2 {
-      font-size: 2.5rem;
+      font-weight: 400; /* Increased contrast */
     }
   }
 
   .story {
-    display: grid;
-    grid-template-columns: 50% 50%;
     background-color: var(--white);
-    p {
-      font-size: 1.15rem;
-      max-width: 600px;
-      margin-top: 12px;
-    }
-  }
+    display: flex;
+    justify-content: center;
+    padding: 80px var(--layout-padding-side);
 
-  .mission {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    background-color: var(--green);
-    color: var(--font-color-light);
-    padding: 50px 180px 50px;
-    p {
-      font-size: 1.15rem;
-      max-width: 600px;
-      margin-top: 12px;
-    }
-
-    > div,
-    > img {
-      width: 80%;
-      box-sizing: border-box;
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4rem;
     }
 
     img {
-      align-self: center;
-      justify-self: center;
-      margin-right: 150px;
+        width: 100%;
+        max-width: 450px;
+        height: auto;
+    }
+
+    .story-text {
+        max-width: 600px;
+        p {
+            font-size: 1.15rem;
+            margin-top: 12px;
+        }
+        h2 {
+            font-size: 2.5rem;
+        }
+    }
+  }
+
+
+  .mission {
+    background-color: var(--green);
+    color: var(--font-color-light);
+    display: flex;
+    justify-content: center;
+    padding: 80px var(--layout-padding-side);
+
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4rem;
+    }
+
+    .image-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+    }
+
+    p {
+      font-size: 1.15rem;
+      max-width: 600px;
+      margin-top: 12px;
+      font-weight: 400; /* Increased contrast */
+    }
+
+    img {
       width: 225px;
       max-width: 100%;
       height: auto;
-      @media (max-width: 440px) {
-        margin-right: 0px;
-      }
     }
 
     & .ticks {
       list-style: none;
       padding: 0;
       margin: 12px 0 0;
+      font-weight: 400; /* Increased contrast */
     }
     & .ticks li {
       position: relative;
@@ -151,23 +203,37 @@ import Candid from '../components/common/candid-award/Candid.vue'
       font-weight: 700;
     }
   }
+
   img {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
   }
+
   .transparency {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    padding: 50px 180px 50px;
     color: var(--font-color-dark);
     background-color: var(--white);
+    display: flex;
+    justify-content: center;
+    padding: 80px var(--layout-padding-side);
+
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4rem;
+    }
+
     p {
       font-size: 1.15rem;
       max-width: 600px;
       margin-top: 12px;
     }
     .notice {
-      margin-left: 8rem;
+      text-align: right; /* Aligns content to the right edge */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; /* Ensures flex children align right */
+
       & h2 {
         font-size: 2.5rem;
       }
@@ -181,14 +247,59 @@ import Candid from '../components/common/candid-award/Candid.vue'
       display: flex;
       gap: 3rem;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Centered in its column */
     }
   }
-  @media (min-width: 0px) and (max-width: 320px) {
+
+  @media (max-width: 1024px) {
+    .story .content-wrapper,
+    .mission .content-wrapper,
+    .transparency .content-wrapper {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .story img, .mission .image-wrapper {
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .story-text, .mission content, .transparency .notice {
+        max-width: 100%;
+        align-items: center; /* Reset alignments for center text */
+    }
+
+    .story-text p,
+    .mission p,
+    .transparency p,
+    .mission .ticks {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left; /* Keep text readable */
+    }
+
+    /* Re-center lists/paragraphs if desired, or keep left aligned within a centered block */
+    .mission .ticks {
+        display: inline-block;
+        text-align: left;
+    }
+
+    .transparency .awards {
+        order: -1; /* Awards on top on mobile? matching previous layout logic roughly */
+        margin-bottom: 2rem;
+    }
+
+    /* Reset transparency alignment for mobile */
+    .transparency .notice {
+        text-align: center;
+        align-items: center;
+    }
   }
+
   @media (min-width: 321px) and (max-width: 430px) {
     .hero {
-      padding: 100px 30px 50px;
+      padding: 100px var(--layout-padding-side) 50px;
       h1 {
         font-size: 2rem;
       }
@@ -196,124 +307,11 @@ import Candid from '../components/common/candid-award/Candid.vue'
         font-size: 1.15rem;
       }
     }
-    .story {
-      padding: 50px 30px 50px;
-      grid-template-columns: 100%;
-      gap: 30px;
-    }
-    .mission {
-      @media (max-width: 430px) {
-        padding: 50px 30px 50px;
-        grid-template-columns: 100%;
-        gap: 30px;
-      }
-    }
-    .transparency {
-      padding: 50px 30px 50px;
-      grid-template-columns: 100%;
-      gap: 30px;
-      .notice {
-        margin-left: 0;
-      }
-      & .awards {
-        flex-direction: column;
-        justify-content: center;
-        margin-top: 1.5rem;
-      }
-    }
-  }
-  @media (min-width: 431px) and (max-width: 768px) {
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-  }
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    & .hero {
-      padding: 120px 100px 50px;
-      & p {
-        font-weight: 400;
-      }
-    }
-    & .story {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 50px 170px 50px;
-      & content {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        max-width: 1120px;
 
-        width: 100%vw;
-        & img {
-          max-width: 450px;
-          height: auto;
-        }
-      }
-      & .story-text {
-        padding-left: 95px;
-        & p {
-          font-size: 1.15rem;
-          margin-top: 12px;
-        }
-      }
-    }
-    & .mission {
-      max-width: 1120px;
-      padding: 50px 0px 50px;
-      & p {
-        font-size: 1.15rem;
-        margin-top: 12px;
-        font-weight: 400;
-      }
-    }
-  }
-  @media (min-width: 1441px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    & .hero {
-      padding: 120px 100px 50px;
-      & p {
-        font-weight: 400;
-      }
-    }
-    & .story {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 50px 170px 50px;
-      & content {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        width: 100%vw;
-        & img {
-          max-width: 450px;
-          height: auto;
-        }
-      }
-      & .story-text {
-        padding-left: 95px;
-        & p {
-          font-size: 1.15rem;
-          margin-top: 12px;
-        }
-      }
-    }
-    & .mission {
-      padding: 50px 0px 50px;
-      & p {
-        font-size: 1.15rem;
-        margin-top: 12px;
-        font-weight: 400;
-      }
-    }
-    & .transparency {
-      width: 100dvw;
+    /* Further specific mobile adjustments can go here if generic max-width: 1024 isn't enough */
+    .transparency .awards {
+        flex-direction: column;
+        gap: 1.5rem;
     }
   }
 }

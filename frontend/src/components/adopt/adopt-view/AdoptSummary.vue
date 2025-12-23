@@ -34,18 +34,9 @@ defineProps<{
   flex-wrap: wrap;
   row-gap: 30px;
   column-gap: 20px;
-  @media (min-width: 321px) and (max-width: 430px) {
-    justify-content: center;
-  }
-  @media (min-width: 431px) and (max-width: 768px) {
-    justify-content: center;
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-  }
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    justify-content: center;
-    align-items: center;
-    max-width: 1275px;
-  }
+  /* Centering handled by flex-wrap behavior or parent alignment */
+  justify-content: center;
+
+  /* Removed media queries that set max-width constraints */
 }
 </style>

@@ -17,36 +17,49 @@ const pet = computed(() => pets.find((p) => p.id === id.value))
 
 <template>
   <div class="adopt">
-    <div class="header" v-if="!pet">
-      <h1>Find your new best friend</h1>
-      <p>
-        Search adoptable cats and dogs across Southern California. Every adoption helps us rescue
-        another life.
-      </p>
+    <div class="content-wrapper">
+      <div class="header" v-if="!pet">
+        <h1>Find your new best friend</h1>
+        <p>
+          Search adoptable cats and dogs across Southern California. Every adoption helps us rescue
+          another life.
+        </p>
+      </div>
+      <main>
+        <AdoptDetail v-if="pet" :pet="pet!" />
+        <AdoptSummary v-else :pets="pets" />
+      </main>
     </div>
-    <main>
-      <AdoptDetail v-if="pet" :pet="pet!" />
-      <AdoptSummary v-else :pets="pets" />
-    </main>
   </div>
 </template>
 
 <style scoped lang="css">
 .adopt {
-  width: 100dvw;
-  margin: 0 auto;
-  padding: 8rem 0 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
+  width: 100%;
+  min-height: 100vh;
   background-color: var(--green);
+  display: flex;
+  justify-content: center;
+
+  .content-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 8rem var(--layout-padding-side) 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    box-sizing: border-box;
+  }
 
   .header {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
+    text-align: center;
     & h1 {
       font-size: 3.5rem;
       color: var(--font-color-light);
@@ -61,11 +74,13 @@ const pet = computed(() => pets.find((p) => p.id === id.value))
   }
 
   @media (min-width: 0px) and (max-width: 320px) {
-    margin-top: 1rem;
+    /* margin-top: 1rem; removed as sticking to padding based layout */
   }
   @media (min-width: 321px) and (max-width: 430px) {
-    padding-top: 5.5rem;
-    text-align: center;
+    .content-wrapper {
+        padding-top: 5.5rem;
+        text-align: center;
+    }
     & h1 {
       font-size: 2.5rem;
       color: var(--font-color-light);
@@ -80,9 +95,11 @@ const pet = computed(() => pets.find((p) => p.id === id.value))
     }
   }
   @media (min-width: 431px) and (max-width: 768px) {
-    padding: 6rem 1.5rem 2rem 1.5rem;
-    gap: 40px;
-    align-items: center;
+    .content-wrapper {
+        padding: 6rem var(--layout-padding-side) 2rem;
+        gap: 40px;
+        align-items: center;
+    }
     .header {
       max-width: 580px;
       h1 {
@@ -93,14 +110,6 @@ const pet = computed(() => pets.find((p) => p.id === id.value))
         font-size: 1.1rem;
       }
     }
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-  }
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    max-width: 1440px;
-  }
-  @media (min-width: 1441px) {
-    max-width: 1500px;
   }
 }
 </style>

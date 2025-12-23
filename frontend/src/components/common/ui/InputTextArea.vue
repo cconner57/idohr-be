@@ -8,7 +8,13 @@ const props = defineProps<{
 <template>
   <div class="field col-span-2">
     <label class="label">{{ props.label }}</label>
-    <div class="control"><textarea rows="3" :placeholder="props.placeholder" /></div>
+    <div class="control">
+      <textarea
+        rows="3"
+        :placeholder="props.placeholder"
+        style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); resize: none"
+      />
+    </div>
   </div>
 </template>
 

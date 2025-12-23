@@ -124,6 +124,7 @@ onMounted(() => {
   background-color: #fff;
   width: 100%;
   height: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .signature-actions {

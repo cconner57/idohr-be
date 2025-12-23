@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   id?: string
   label: string
@@ -12,6 +18,7 @@ const props = defineProps<{
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits<{ (e: 'update:modelValue', value: string | number | null): void }>()
 
+const attrs = useAttrs()
 const inputId = props.id ?? `input-${Math.random().toString(36).slice(2, 9)}`
 
 function onInput(e: Event) {
@@ -25,7 +32,9 @@ function onInput(e: Event) {
     <label class="label" :for="inputId">{{ props.label }}</label>
     <div class="field">
       <input
+        v-bind="attrs"
         :id="inputId"
+        :class="{ 'is-empty': !props.modelValue }"
         :placeholder="props.placeholder"
         :type="props.type"
         :value="props.modelValue"
@@ -58,6 +67,10 @@ function onInput(e: Event) {
 }
 input {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
 }
 /* Added styles for date and time inputs */
 input[type='date'],
@@ -65,7 +78,15 @@ input[type='time'] {
   appearance: none; /* Removes default browser styles */
   -webkit-appearance: none;
   -moz-appearance: none;
+  min-height: 2.5rem; /* Ensure height matches text inputs */
 }
+
+input[type='date'].is-empty,
+input[type='time'].is-empty {
+  color: var(--font-color-dark);
+  opacity: 0.6;
+}
+
 input[type='date']::placeholder,
 input[type='time']::placeholder {
   color: var(--font-color-dark);
